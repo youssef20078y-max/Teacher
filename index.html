@@ -3,1087 +3,825 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Pizzeria Roma — أحسن بيتزا في المدينة</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Tajawal:wght@300;400;500;700&family=Pacifico&display=swap" rel="stylesheet"/>
+<title>Mr. Adam — مدرس الإنجليزي</title>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=Tajawal:wght@300;400;500;700&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 
 :root{
-  --red:#E63946;
-  --orange:#F4A261;
-  --yellow:#FFD166;
-  --green:#06D6A0;
-  --blue:#118AB2;
-  --dark:#1a1a2e;
-  --cream:#FFF8F0;
+  --purple:#7C3AED;
+  --purple-light:#A78BFA;
+  --pink:#EC4899;
+  --cyan:#06B6D4;
+  --yellow:#FCD34D;
+  --green:#10B981;
+  --dark:#0f0f1a;
+  --bg:#fafafa;
   --white:#ffffff;
-  --text:#2d2d2d;
-  --muted:#777;
+  --text:#1e1b4b;
+  --muted:#6b7280;
+  --border:#e5e7eb;
 }
 
-body{
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+
+/* ══ ANIMATED GRADIENT BG ══ */
+.grad-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 10%, rgba(124,58,237,.08) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 10% 80%, rgba(6,182,212,.07) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(236,72,153,.05) 0%,transparent 60%);
+}
+
+/* ══ FLOATING SHAPES ══ */
+.shape{
+  position:fixed;border-radius:50%;pointer-events:none;z-index:0;
+  animation:shapeFloat 10s ease-in-out infinite;
+}
+.s1{width:300px;height:300px;background:rgba(124,58,237,.06);top:-80px;left:-80px;animation-delay:0s}
+.s2{width:200px;height:200px;background:rgba(236,72,153,.07);bottom:10%;right:-50px;animation-delay:3s}
+.s3{width:150px;height:150px;background:rgba(6,182,212,.08);top:40%;left:5%;animation-delay:6s}
+@keyframes shapeFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-20px) rotate(180deg)}}
+
+/* ══ HEADER ══ */
+header{
+  position:sticky;top:0;z-index:200;
+  padding:.9rem 3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(250,250,250,.88);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(124,58,237,.12);
+  transition:all .3s;
+}
+.logo{
+  font-family:'Righteous',cursive;
+  font-size:1.5rem;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.logo span{
   font-family:'Tajawal',sans-serif;
-  background:var(--cream);
-  color:var(--text);
-  overflow-x:hidden;
+  font-size:.65rem;
+  display:block;
+  color:var(--muted);
+  letter-spacing:2px;
+  -webkit-text-fill-color:var(--muted);
+}
+nav{display:flex;gap:1.8rem;align-items:center}
+nav a{
+  font-size:.88rem;font-weight:600;color:var(--muted);
+  text-decoration:none;transition:color .3s;position:relative;
+}
+nav a::after{
+  content:'';position:absolute;bottom:-4px;right:0;
+  width:0;height:2px;
+  background:linear-gradient(90deg,var(--purple),var(--pink));
+  transition:width .3s;border-radius:2px;
+}
+nav a:hover{color:var(--purple)}
+nav a:hover::after{width:100%}
+.book-nav{
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  color:white !important;
+  padding:.5rem 1.3rem;
+  border-radius:50px;
+  font-weight:700 !important;
+  transition:transform .2s,box-shadow .2s !important;
+  -webkit-text-fill-color:white !important;
+}
+.book-nav::after{display:none !important}
+.book-nav:hover{transform:translateY(-2px) !important;box-shadow:0 8px 25px rgba(124,58,237,.4) !important}
+
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer}
+.hamburger span{width:24px;height:2px;background:var(--text);border-radius:2px;transition:all .3s}
+.mobile-menu{
+  display:none;position:fixed;inset:0;background:var(--white);z-index:199;
+  flex-direction:column;align-items:center;justify-content:center;gap:2rem;
+}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:'Righteous',cursive;font-size:1.8rem;color:var(--text);text-decoration:none}
+.mobile-menu a:hover{color:var(--purple)}
+.close-menu{position:absolute;top:1.5rem;left:1.5rem;background:none;border:none;font-size:1.8rem;cursor:pointer}
+
+/* ══ HERO ══ */
+.hero{
+  min-height:100vh;
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;
+  padding:6rem 3rem 4rem;
+  position:relative;z-index:1;
+  gap:3rem;
+}
+.hero-left{}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(124,58,237,.1);
+  border:1px solid rgba(124,58,237,.2);
+  color:var(--purple);
+  font-size:.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  padding:.4rem 1rem;border-radius:50px;margin-bottom:1.5rem;
+}
+.hero h1{
+  font-family:'Righteous',cursive;
+  font-size:clamp(2.5rem,5vw,4.5rem);
+  line-height:1.1;color:var(--text);margin-bottom:1.2rem;
+}
+.hero h1 .grad{
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero p{font-size:1.05rem;color:var(--muted);line-height:1.9;margin-bottom:2rem;max-width:480px}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-grad{
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  color:white;border:none;
+  padding:.85rem 2rem;border-radius:50px;
+  font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:700;
+  cursor:pointer;transition:transform .2s,box-shadow .2s;
+  text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;
+}
+.btn-grad:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(124,58,237,.35)}
+.btn-outline{
+  background:transparent;color:var(--purple);
+  border:2px solid var(--purple);
+  padding:.85rem 2rem;border-radius:50px;
+  font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:700;
+  cursor:pointer;transition:all .2s;
+  text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;
+}
+.btn-outline:hover{background:var(--purple);color:white}
+
+/* بطاقة المدرس في الهيرو */
+.hero-right{display:flex;justify-content:center;align-items:center;position:relative}
+.teacher-card{
+  background:white;
+  border-radius:28px;
+  padding:2rem;
+  box-shadow:0 30px 80px rgba(124,58,237,.15);
+  text-align:center;
+  position:relative;
+  width:100%;max-width:340px;
+  animation:cardFloat 4s ease-in-out infinite;
+  border:1px solid rgba(124,58,237,.1);
+}
+@keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.teacher-avatar{
+  width:120px;height:120px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  display:flex;align-items:center;justify-content:center;
+  font-size:3.5rem;
+  margin:0 auto 1rem;
+  border:4px solid white;
+  box-shadow:0 8px 25px rgba(124,58,237,.3);
+}
+.teacher-name{font-family:'Righteous',cursive;font-size:1.5rem;color:var(--text);margin-bottom:.2rem}
+.teacher-title{font-size:.82rem;color:var(--purple);font-weight:700;letter-spacing:1px;margin-bottom:1.2rem}
+.teacher-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-bottom:1.2rem}
+.t-stat{background:var(--bg);border-radius:12px;padding:.6rem .3rem;text-align:center}
+.t-stat-num{font-family:'Righteous',cursive;font-size:1.1rem;color:var(--purple)}
+.t-stat-label{font-size:.65rem;color:var(--muted);margin-top:.1rem}
+.available-badge{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:rgba(16,185,129,.1);color:var(--green);
+  font-size:.75rem;font-weight:700;
+  padding:.35rem .9rem;border-radius:50px;
+}
+.available-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* floating tags حوالين الكارت */
+.float-tag{
+  position:absolute;
+  background:white;border-radius:12px;
+  padding:.5rem .9rem;font-size:.78rem;font-weight:700;
+  box-shadow:0 8px 25px rgba(0,0,0,.08);
+  display:flex;align-items:center;gap:.4rem;
+  animation:tagFloat 3s ease-in-out infinite;
+  white-space:nowrap;
+}
+.tag1{top:-15px;right:-20px;color:var(--purple);animation-delay:0s}
+.tag2{bottom:20px;right:-30px;color:var(--pink);animation-delay:1s}
+.tag3{top:40%;left:-30px;color:var(--cyan);animation-delay:2s}
+@keyframes tagFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* إحصائيات الهيرو */
+.hero-stats{display:flex;gap:2.5rem;margin-top:2.5rem;flex-wrap:wrap}
+.hstat{text-align:center}
+.hstat-num{font-family:'Righteous',cursive;font-size:2rem;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block}
+.hstat-label{font-size:.75rem;color:var(--muted);letter-spacing:1px}
+
+/* ══ SECTION COMMONS ══ */
+section{padding:5rem 3rem;position:relative;z-index:1}
+.sec-inner{max-width:1200px;margin:0 auto}
+.sec-head{text-align:center;margin-bottom:3.5rem}
+.sec-tag{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:rgba(124,58,237,.08);color:var(--purple);
+  font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  padding:.35rem 1rem;border-radius:50px;margin-bottom:.8rem;
+}
+.sec-title{
+  font-family:'Righteous',cursive;
+  font-size:clamp(1.8rem,3.5vw,2.8rem);
+  color:var(--text);margin-bottom:.6rem;
+}
+.sec-desc{color:var(--muted);font-size:1rem;line-height:1.8;max-width:520px;margin:0 auto}
+
+/* ══ ABOUT / PROFILE ══ */
+#about{background:white}
+.about-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:4rem;align-items:center}
+.about-img-wrap{position:relative}
+.about-img{
+  width:100%;
+  aspect-ratio:1;
+  border-radius:28px;
+  background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(236,72,153,.1));
+  display:flex;align-items:center;justify-content:center;
+  font-size:8rem;
+  border:2px solid rgba(124,58,237,.1);
+  position:relative;overflow:hidden;
+}
+.about-img::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(124,58,237,.05),rgba(236,72,153,.05));
+}
+/* شارات حوالين الصورة */
+.about-badge{
+  position:absolute;
+  background:white;border-radius:14px;padding:.7rem 1rem;
+  box-shadow:0 8px 25px rgba(0,0,0,.08);
+  display:flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:700;
+}
+.ab1{top:-10px;left:-15px;color:var(--purple)}
+.ab2{bottom:-10px;right:-15px;color:var(--pink)}
+
+.about-info{}
+.about-title{font-family:'Righteous',cursive;font-size:2rem;color:var(--text);margin-bottom:1rem;line-height:1.2}
+.about-title .grad{background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.about-text{color:var(--muted);font-size:.95rem;line-height:1.9;margin-bottom:1.5rem}
+
+/* مهارات / تخصصات */
+.skills{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.5rem}
+.skill-tag{
+  background:rgba(124,58,237,.08);color:var(--purple);
+  font-size:.8rem;font-weight:700;padding:.4rem .9rem;border-radius:50px;
+  border:1px solid rgba(124,58,237,.15);
 }
 
-/* ── CURSOR CUSTOM ── */
-* { cursor: none !important; }
-.cursor {
-  width: 20px; height: 20px;
-  background: var(--red);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 99999;
-  transition: transform 0.15s ease, background 0.3s;
-  transform: translate(-50%, -50%);
-}
-.cursor-ring {
-  width: 40px; height: 40px;
-  border: 2px solid var(--red);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 99998;
-  transition: transform 0.3s ease, width 0.3s, height 0.3s;
-  transform: translate(-50%, -50%);
-  opacity: 0.5;
-}
+/* تقدم المهارات */
+.skill-bars{display:flex;flex-direction:column;gap:1rem}
+.skill-bar-item{}
+.skill-bar-head{display:flex;justify-content:space-between;font-size:.82rem;font-weight:700;margin-bottom:.4rem}
+.skill-bar-wrap{background:var(--bg);border-radius:50px;height:8px;overflow:hidden}
+.skill-bar-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--purple),var(--pink));transition:width 1.5s ease}
 
-/* ── FLOATING BLOBS ── */
-.blob {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.12;
-  pointer-events: none;
-  z-index: 0;
-  animation: blobFloat 8s ease-in-out infinite;
+/* ══ BOOKING ══ */
+#booking{
+  background:linear-gradient(135deg,var(--dark) 0%,#1a0533 100%);
+  color:white;overflow:hidden;position:relative;
 }
-.blob-1{width:400px;height:400px;background:var(--red);top:-100px;right:-100px;animation-delay:0s}
-.blob-2{width:300px;height:300px;background:var(--orange);bottom:20%;left:-80px;animation-delay:2s}
-.blob-3{width:350px;height:350px;background:var(--yellow);top:50%;right:10%;animation-delay:4s}
-@keyframes blobFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
+#booking::before{
+  content:'📚';position:absolute;
+  font-size:18rem;opacity:.04;
+  left:-3rem;bottom:-3rem;transform:rotate(-15deg);
+}
+.booking-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.booking-info .sec-tag{background:rgba(124,58,237,.3);color:var(--purple-light)}
+.booking-info .sec-title{color:white;text-align:right}
+.booking-info .sec-desc{color:rgba(255,255,255,.6);text-align:right;margin:0}
 
-/* ══════════════════════════════
-   HEADER
-══════════════════════════════ */
-header {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 1rem 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(255,248,240,0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 2px solid var(--yellow);
-  transition: all 0.3s;
+.booking-perks{display:flex;flex-direction:column;gap:.9rem;margin-top:2rem}
+.perk{display:flex;align-items:center;gap:.9rem;font-size:.9rem;color:rgba(255,255,255,.8)}
+.perk-icon{
+  width:38px;height:38px;border-radius:12px;
+  background:rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
 }
-.logo-text {
-  font-family: 'Pacifico', cursive;
-  font-size: 1.8rem;
-  color: var(--red);
-  line-height: 1;
-}
-.logo-sub {
-  font-size: .7rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--muted);
-  font-family: 'Tajawal', sans-serif;
-}
-nav { display: flex; gap: 2rem; }
-nav a {
-  font-size: .9rem;
-  font-weight: 500;
-  color: var(--text);
-  text-decoration: none;
-  position: relative;
-  transition: color .3s;
-}
-nav a::after {
-  content: '';
-  position: absolute;
-  bottom: -4px; right: 0;
-  width: 0; height: 2px;
-  background: var(--red);
-  transition: width .3s;
-}
-nav a:hover { color: var(--red); }
-nav a:hover::after { width: 100%; }
-.nav-cta {
-  background: var(--red);
-  color: white !important;
-  padding: .5rem 1.3rem;
-  border-radius: 50px;
-  font-weight: 700 !important;
-  transition: transform .2s, box-shadow .2s !important;
-}
-.nav-cta:hover { transform: translateY(-2px) !important; box-shadow: 0 6px 20px rgba(230,57,70,.4) !important; }
-.nav-cta::after { display: none !important; }
-
-/* ── HAMBURGER ── */
-.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
-.hamburger span { width: 25px; height: 2px; background: var(--text); transition: all .3s; border-radius: 2px; }
-.mobile-nav {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: var(--cream);
-  z-index: 99;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-}
-.mobile-nav.open { display: flex; }
-.mobile-nav a { font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--text); text-decoration: none; }
-.mobile-nav a:hover { color: var(--red); }
-.close-mobile { position: absolute; top: 1.5rem; left: 1.5rem; background: none; border: none; font-size: 1.8rem; color: var(--text); }
-
-/* ══════════════════════════════
-   HERO
-══════════════════════════════ */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 8rem 3rem 4rem;
-  position: relative;
-  overflow: hidden;
-}
-.hero-content { position: relative; z-index: 2; max-width: 600px; }
-.hero-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: .5rem;
-  background: var(--yellow);
-  color: var(--dark);
-  font-size: .8rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: .4rem 1rem;
-  border-radius: 50px;
-  margin-bottom: 1.5rem;
-}
-.hero h1 {
-  font-family: 'Fredoka One', cursive;
-  font-size: clamp(3rem, 7vw, 6rem);
-  line-height: 1.05;
-  color: var(--dark);
-  margin-bottom: 1.2rem;
-}
-.hero h1 .highlight {
-  color: var(--red);
-  position: relative;
-  display: inline-block;
-}
-.hero h1 .highlight::after {
-  content: '';
-  position: absolute;
-  bottom: 2px; right: 0;
-  width: 100%; height: 6px;
-  background: var(--yellow);
-  z-index: -1;
-  border-radius: 4px;
-}
-.hero p {
-  font-size: 1.1rem;
-  color: var(--muted);
-  line-height: 1.8;
-  margin-bottom: 2rem;
-  max-width: 480px;
-}
-.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
-.btn-primary {
-  background: var(--red);
-  color: white;
-  border: none;
-  padding: .85rem 2rem;
-  border-radius: 50px;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform .2s, box-shadow .2s;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: .5rem;
-}
-.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(230,57,70,.35); }
-.btn-outline {
-  background: transparent;
-  color: var(--dark);
-  border: 2px solid var(--dark);
-  padding: .85rem 2rem;
-  border-radius: 50px;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .2s;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: .5rem;
-}
-.btn-outline:hover { background: var(--dark); color: white; }
-
-/* البيتزا الدايرة الكبيرة في الهيرو */
-.hero-pizza {
-  position: absolute;
-  left: 5%;
-  top: 50%;
-  transform: translateY(-50%);
-  width: min(500px, 45vw);
-  height: min(500px, 45vw);
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--orange), var(--yellow));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: min(14rem, 25vw);
-  animation: pizzaSpin 20s linear infinite;
-  box-shadow: 0 20px 60px rgba(244,162,97,.4);
-  z-index: 1;
-}
-@keyframes pizzaSpin { from{transform:translateY(-50%) rotate(0)} to{transform:translateY(-50%) rotate(360deg)} }
-
-/* الأرقام الإحصائية */
-.hero-stats {
-  display: flex;
-  gap: 2rem;
-  margin-top: 2.5rem;
-  flex-wrap: wrap;
-}
-.stat { text-align: center; }
-.stat-num {
-  font-family: 'Fredoka One', cursive;
-  font-size: 2rem;
-  color: var(--red);
-  display: block;
-}
-.stat-label { font-size: .78rem; color: var(--muted); letter-spacing: 1px; }
-
-/* ══════════════════════════════
-   SECTION STYLES
-══════════════════════════════ */
-section { padding: 5rem 3rem; position: relative; z-index: 1; }
-.sec-label {
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--red);
-  margin-bottom: .6rem;
-}
-.sec-title {
-  font-family: 'Fredoka One', cursive;
-  font-size: clamp(2rem, 4vw, 3rem);
-  color: var(--dark);
-  margin-bottom: .5rem;
-  line-height: 1.1;
-}
-.sec-desc { color: var(--muted); font-size: 1rem; line-height: 1.7; max-width: 500px; }
-
-/* ══════════════════════════════
-   MENU
-══════════════════════════════ */
-#menu { background: var(--white); }
-.menu-inner { max-width: 1200px; margin: 0 auto; }
-.menu-head { text-align: center; margin-bottom: 3rem; }
-.menu-head .sec-desc { margin: 0 auto; }
-
-/* تابات الفئات */
-.menu-tabs {
-  display: flex;
-  gap: .5rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 2.5rem;
-}
-.tab-btn {
-  background: transparent;
-  border: 2px solid var(--text);
-  color: var(--text);
-  padding: .5rem 1.3rem;
-  border-radius: 50px;
-  font-family: 'Tajawal', sans-serif;
-  font-size: .88rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .25s;
-  display: flex;
-  align-items: center;
-  gap: .4rem;
-}
-.tab-btn:hover, .tab-btn.active {
-  background: var(--red);
-  border-color: var(--red);
-  color: white;
-}
-
-/* جريد المنيو */
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-.menu-card {
-  background: var(--cream);
-  border-radius: 20px;
-  overflow: hidden;
-  transition: transform .3s, box-shadow .3s;
-  animation: cardPop .4s ease both;
-  position: relative;
-}
-.menu-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,.1); }
-@keyframes cardPop { from{opacity:0;transform:scale(.95)} to{opacity:1;transform:scale(1)} }
-.menu-card-img {
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 5rem;
-  position: relative;
-  overflow: hidden;
-}
-.menu-card-img::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: .15;
-}
-.cat-pizza .menu-card-img::before { background: linear-gradient(135deg,var(--red),var(--orange)); }
-.cat-pasta .menu-card-img::before { background: linear-gradient(135deg,var(--orange),var(--yellow)); }
-.cat-drinks .menu-card-img::before { background: linear-gradient(135deg,var(--blue),var(--green)); }
-.cat-desserts .menu-card-img::before { background: linear-gradient(135deg,var(--yellow),var(--orange)); }
-
-.menu-card-body { padding: 1.2rem; }
-.menu-card-name { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--dark); margin-bottom: .3rem; }
-.menu-card-desc { font-size: .82rem; color: var(--muted); line-height: 1.6; margin-bottom: .8rem; }
-.menu-card-footer { display: flex; align-items: center; justify-content: space-between; }
-.menu-card-price { font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: var(--red); }
-.menu-card-price span { font-size: .8rem; font-family: 'Tajawal',sans-serif; color: var(--muted); }
-.add-btn {
-  background: var(--red);
-  color: white;
-  border: none;
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: transform .2s, box-shadow .2s;
-  display: flex; align-items: center; justify-content: center;
-}
-.add-btn:hover { transform: scale(1.15); box-shadow: 0 5px 15px rgba(230,57,70,.4); }
-
-/* باج الأكتر طلباً */
-.popular-badge {
-  position: absolute;
-  top: .8rem; right: .8rem;
-  background: var(--yellow);
-  color: var(--dark);
-  font-size: .65rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  padding: .25rem .6rem;
-  border-radius: 50px;
-  text-transform: uppercase;
-}
-
-/* ══════════════════════════════
-   BOOKING
-══════════════════════════════ */
-#booking {
-  background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
-  color: white;
-  position: relative;
-  overflow: hidden;
-}
-#booking::before {
-  content: '🍕';
-  position: absolute;
-  font-size: 20rem;
-  opacity: .04;
-  right: -3rem;
-  bottom: -3rem;
-  transform: rotate(-20deg);
-}
-.booking-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-.booking-info .sec-label { color: var(--yellow); }
-.booking-info .sec-title { color: white; }
-.booking-info .sec-desc { color: rgba(255,255,255,.6); max-width: 400px; }
-.booking-perks { margin-top: 2rem; display: flex; flex-direction: column; gap: .8rem; }
-.perk { display: flex; align-items: center; gap: .8rem; font-size: .9rem; color: rgba(255,255,255,.8); }
-.perk-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
 
 /* فورم الحجز */
-.booking-form {
-  background: var(--cream);
-  border-radius: 24px;
-  padding: 2.5rem;
-  color: var(--text);
+.booking-form-wrap{
+  background:white;border-radius:28px;padding:2.5rem;color:var(--text);
+  box-shadow:0 30px 80px rgba(0,0,0,.3);
 }
-.booking-form h3 {
-  font-family: 'Fredoka One', cursive;
-  font-size: 1.6rem;
-  color: var(--dark);
-  margin-bottom: 1.5rem;
+.booking-form-wrap h3{font-family:'Righteous',cursive;font-size:1.5rem;color:var(--text);margin-bottom:1.5rem}
+.fg{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem}
+.fg label{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+.fg input,.fg select,.fg textarea{
+  background:var(--bg);border:2px solid var(--border);
+  border-radius:12px;padding:.7rem 1rem;
+  font-family:'Tajawal',sans-serif;font-size:.9rem;color:var(--text);
+  outline:none;transition:border-color .3s;width:100%;
 }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-.form-group { display: flex; flex-direction: column; gap: .4rem; }
-.form-group label { font-size: .78rem; font-weight: 700; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
-.form-group input,
-.form-group select,
-.form-group textarea {
-  background: var(--white);
-  border: 2px solid #e8e0d5;
-  border-radius: 12px;
-  padding: .7rem 1rem;
-  font-family: 'Tajawal', sans-serif;
-  font-size: .9rem;
-  color: var(--text);
-  outline: none;
-  transition: border-color .3s;
-  width: 100%;
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--purple)}
+.fg textarea{resize:none;height:80px}
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.book-submit{
+  width:100%;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  color:white;border:none;padding:.9rem;border-radius:12px;
+  font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:700;
+  cursor:pointer;transition:transform .2s,box-shadow .2s;margin-top:.5rem;
 }
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus { border-color: var(--red); }
-.form-group textarea { resize: none; height: 90px; }
-.form-full { grid-column: 1/-1; }
-.submit-btn {
-  width: 100%;
-  background: var(--red);
-  color: white;
-  border: none;
-  padding: .9rem;
-  border-radius: 12px;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform .2s, box-shadow .2s;
-  margin-top: .5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
-}
-.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(230,57,70,.4); }
-.success-msg {
-  display: none;
-  text-align: center;
-  padding: 2rem;
-}
-.success-msg .tick { font-size: 3rem; margin-bottom: 1rem; display: block; }
-.success-msg h4 { font-family: 'Fredoka One', cursive; font-size: 1.5rem; color: var(--green); margin-bottom: .5rem; }
-.success-msg p { color: var(--muted); font-size: .9rem; }
+.book-submit:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(124,58,237,.4)}
+.book-success{display:none;text-align:center;padding:2rem}
+.book-success .tick{font-size:3rem;display:block;margin-bottom:1rem}
+.book-success h4{font-family:'Righteous',cursive;font-size:1.5rem;color:var(--green);margin-bottom:.5rem}
+.book-success p{color:var(--muted);font-size:.9rem}
 
-/* ══════════════════════════════
-   REVIEWS
-══════════════════════════════ */
-#reviews { background: var(--cream); }
-.reviews-inner { max-width: 1200px; margin: 0 auto; }
-.reviews-head { text-align: center; margin-bottom: 3rem; }
-.reviews-head .sec-desc { margin: 0 auto; }
+/* ══ PRICING ══ */
+#pricing{background:var(--bg)}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+.price-card{
+  background:white;border-radius:24px;padding:2rem;
+  border:2px solid var(--border);
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+  position:relative;overflow:hidden;
+}
+.price-card:hover{transform:translateY(-8px);box-shadow:0 25px 60px rgba(0,0,0,.08)}
+.price-card.popular{border-color:var(--purple);box-shadow:0 15px 50px rgba(124,58,237,.15)}
+.popular-label{
+  position:absolute;top:1.2rem;left:1.2rem;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  color:white;font-size:.68rem;font-weight:700;letter-spacing:1px;
+  padding:.3rem .8rem;border-radius:50px;text-transform:uppercase;
+}
+.price-icon{font-size:2.5rem;margin-bottom:1rem;display:block}
+.price-name{font-family:'Righteous',cursive;font-size:1.3rem;color:var(--text);margin-bottom:.3rem}
+.price-desc{font-size:.82rem;color:var(--muted);margin-bottom:1.2rem;line-height:1.6}
+.price-val{
+  font-family:'Righteous',cursive;font-size:2.5rem;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;margin-bottom:.2rem;
+}
+.price-per{font-size:.8rem;color:var(--muted);margin-bottom:1.5rem}
+.price-features{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem}
+.pf{display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:var(--text)}
+.pf::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+.pf.no{color:var(--muted);text-decoration:line-through}
+.pf.no::before{content:'✕';color:var(--border)}
+.price-btn{
+  width:100%;border:2px solid var(--purple);color:var(--purple);
+  background:transparent;padding:.75rem;border-radius:12px;
+  font-family:'Tajawal',sans-serif;font-size:.9rem;font-weight:700;
+  cursor:pointer;transition:all .3s;
+}
+.price-btn:hover,.price-card.popular .price-btn{
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  border-color:transparent;color:white;
+}
 
-/* الريتينج الكلي */
-.overall-rating {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
+/* ══ REVIEWS ══ */
+#reviews{background:white}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
+.review-card{
+  background:var(--bg);border-radius:20px;padding:1.5rem;
+  border:1px solid var(--border);
+  transition:transform .3s,box-shadow .3s;
+  position:relative;
 }
-.big-rating {
-  font-family: 'Fredoka One', cursive;
-  font-size: 5rem;
-  color: var(--red);
-  line-height: 1;
+.review-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(0,0,0,.06)}
+.review-card::before{
+  content:'"';
+  font-family:'Righteous',cursive;font-size:5rem;
+  color:rgba(124,58,237,.12);
+  position:absolute;top:.3rem;right:1rem;line-height:1;
 }
-.rating-details { text-align: right; }
-.rating-stars { color: var(--yellow); font-size: 1.5rem; margin-bottom: .3rem; }
-.rating-count { color: var(--muted); font-size: .85rem; }
+.reviewer{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem}
+.rev-avatar{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:1rem;color:white;flex-shrink:0;
+}
+.rev-name{font-weight:700;font-size:.92rem;color:var(--text)}
+.rev-meta{font-size:.73rem;color:var(--muted)}
+.rev-stars{color:var(--yellow);font-size:.88rem;margin-bottom:.6rem}
+.rev-text{font-size:.88rem;color:var(--muted);line-height:1.7}
+.rev-level{
+  display:inline-flex;align-items:center;gap:.3rem;
+  background:rgba(124,58,237,.08);color:var(--purple);
+  font-size:.7rem;font-weight:700;padding:.25rem .6rem;border-radius:50px;
+  margin-top:.7rem;
+}
 
-/* كروت التقييمات */
-.reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+/* ══ CTA STRIP ══ */
+.cta-strip{
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  padding:4rem 3rem;text-align:center;position:relative;overflow:hidden;z-index:1;
 }
-.review-card {
-  background: var(--white);
-  border-radius: 20px;
-  padding: 1.5rem;
-  position: relative;
-  transition: transform .3s;
-  animation: cardPop .4s ease both;
+.cta-strip::before{
+  content:'🎓';position:absolute;font-size:15rem;opacity:.06;
+  right:-3rem;top:50%;transform:translateY(-50%);
 }
-.review-card:hover { transform: translateY(-5px); }
-.review-card::before {
-  content: '"';
-  font-family: 'Pacifico', cursive;
-  font-size: 4rem;
-  color: var(--yellow);
-  position: absolute;
-  top: .5rem; right: 1.2rem;
-  line-height: 1;
-  opacity: .5;
+.cta-strip h2{font-family:'Righteous',cursive;font-size:2.5rem;color:white;margin-bottom:.8rem}
+.cta-strip p{color:rgba(255,255,255,.8);font-size:1rem;margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto}
+.cta-strip-btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:white;color:var(--purple);
+  padding:.9rem 2.5rem;border-radius:50px;
+  font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:700;
+  cursor:pointer;border:none;transition:transform .2s,box-shadow .2s;
+  text-decoration:none;
 }
-.reviewer { display: flex; align-items: center; gap: .8rem; margin-bottom: 1rem; }
-.reviewer-avatar {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: white;
-  flex-shrink: 0;
-}
-.reviewer-name { font-weight: 700; font-size: .95rem; color: var(--dark); }
-.reviewer-date { font-size: .75rem; color: var(--muted); }
-.review-stars { color: var(--yellow); font-size: .85rem; margin-bottom: .7rem; }
-.review-text { font-size: .88rem; color: var(--muted); line-height: 1.7; }
+.cta-strip-btn:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,.2)}
 
-/* ══════════════════════════════
-   MAP & INFO
-══════════════════════════════ */
-#location { background: var(--white); }
-.location-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-.location-info { }
-.info-cards { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
-.info-card {
-  background: var(--cream);
-  border-radius: 16px;
-  padding: 1.2rem 1.4rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  transition: transform .3s;
+/* ══ FOOTER ══ */
+footer{
+  background:var(--dark);color:rgba(255,255,255,.6);
+  padding:3rem;text-align:center;
 }
-.info-card:hover { transform: translateX(-5px); }
-.info-icon {
-  width: 44px; height: 44px;
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem;
-  flex-shrink: 0;
+.footer-logo{
+  font-family:'Righteous',cursive;font-size:2rem;
+  background:linear-gradient(135deg,var(--purple-light),var(--pink));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;display:block;margin-bottom:.4rem;
 }
-.info-icon.red { background: rgba(230,57,70,.12); }
-.info-icon.orange { background: rgba(244,162,97,.2); }
-.info-icon.green { background: rgba(6,214,160,.15); }
-.info-icon.blue { background: rgba(17,138,178,.12); }
-.info-card-title { font-weight: 700; font-size: .9rem; color: var(--dark); margin-bottom: .2rem; }
-.info-card-val { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+.footer-links{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin:1.2rem 0}
+.footer-links a{color:rgba(255,255,255,.4);text-decoration:none;font-size:.85rem;transition:color .3s}
+.footer-links a:hover{color:var(--purple-light)}
+.social-row{display:flex;gap:.8rem;justify-content:center;margin-bottom:1.5rem}
+.soc-btn{
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;
+  text-decoration:none;transition:all .3s;
+}
+.soc-btn:hover{background:var(--purple);border-color:var(--purple);transform:translateY(-3px)}
+.footer-copy{font-size:.72rem;color:rgba(255,255,255,.25)}
 
-/* الخريطة — iframe */
-.map-wrap {
-  border-radius: 24px;
-  overflow: hidden;
-  height: 420px;
-  box-shadow: 0 10px 40px rgba(0,0,0,.1);
-  border: 4px solid var(--yellow);
+/* ══ TOAST ══ */
+#toast{
+  position:fixed;bottom:2rem;left:50%;
+  transform:translateX(-50%) translateY(100px);
+  background:var(--dark);color:white;
+  padding:.75rem 1.8rem;border-radius:50px;
+  font-weight:700;font-size:.85rem;z-index:9999;
+  transition:transform .4s cubic-bezier(.25,.46,.45,.94);
+  pointer-events:none;white-space:nowrap;
+  border:2px solid var(--purple-light);
 }
-.map-wrap iframe { width: 100%; height: 100%; border: none; }
+#toast.show{transform:translateX(-50%) translateY(0)}
 
-/* ══════════════════════════════
-   FOOTER
-══════════════════════════════ */
-footer {
-  background: var(--dark);
-  color: rgba(255,255,255,.7);
-  padding: 3rem;
-  text-align: center;
-}
-.footer-logo {
-  font-family: 'Pacifico', cursive;
-  font-size: 2.2rem;
-  color: var(--yellow);
-  margin-bottom: .5rem;
-  display: block;
-}
-.footer-tagline { font-size: .85rem; margin-bottom: 2rem; }
-.footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-.footer-links a { color: rgba(255,255,255,.5); text-decoration: none; font-size: .85rem; transition: color .3s; }
-.footer-links a:hover { color: var(--yellow); }
-.social-links { display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; }
-.social-btn {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.15);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1rem;
-  text-decoration: none;
-  transition: all .3s;
-}
-.social-btn:hover { background: var(--red); border-color: var(--red); transform: translateY(-3px); }
-.footer-copy { font-size: .75rem; color: rgba(255,255,255,.3); }
+/* ══ REVEAL ══ */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
 
-/* ══════════════════════════════
-   TOAST
-══════════════════════════════ */
-#toast {
-  position: fixed;
-  bottom: 2rem; left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background: var(--dark);
-  color: white;
-  padding: .8rem 1.8rem;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: .85rem;
-  z-index: 9999;
-  transition: transform .4s cubic-bezier(.25,.46,.45,.94);
-  pointer-events: none;
-  border: 2px solid var(--yellow);
-  white-space: nowrap;
-}
-#toast.show { transform: translateX(-50%) translateY(0); }
-
-/* ══════════════════════════════
-   SCROLL ANIMATIONS
-══════════════════════════════ */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity .7s ease, transform .7s ease;
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* ══════════════════════════════
-   RESPONSIVE
-══════════════════════════════ */
-@media(max-width:768px){
-  header { padding: 1rem 1.5rem; }
-  nav { display: none; }
-  .hamburger { display: flex; }
-  .hero { padding: 6rem 1.5rem 3rem; flex-direction: column; text-align: center; }
-  .hero-pizza { position: relative; left: auto; top: auto; transform: none; width: 200px; height: 200px; font-size: 5rem; margin: 2rem auto 0; }
-  .hero-btns { justify-content: center; }
-  .hero-stats { justify-content: center; }
-  section { padding: 3.5rem 1.5rem; }
-  .booking-inner { grid-template-columns: 1fr; gap: 2rem; }
-  .location-inner { grid-template-columns: 1fr; }
-  .form-row { grid-template-columns: 1fr; }
-  .map-wrap { height: 280px; }
-  * { cursor: auto !important; }
-  .cursor, .cursor-ring { display: none; }
+/* ══ RESPONSIVE ══ */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;text-align:center;padding:5rem 1.5rem 3rem}
+  .hero p{margin:0 auto 2rem}
+  .hero-btns{justify-content:center}
+  .hero-stats{justify-content:center}
+  .teacher-card{max-width:280px;margin:2rem auto 0}
+  .float-tag{display:none}
+  .about-grid{grid-template-columns:1fr}
+  .booking-grid{grid-template-columns:1fr}
+  .form-2col{grid-template-columns:1fr}
+  section{padding:3.5rem 1.5rem}
+  nav{display:none}
+  .hamburger{display:flex}
+  header{padding:.9rem 1.5rem}
+  .booking-info .sec-title,.booking-info .sec-desc{text-align:center}
 }
 </style>
 </head>
 <body>
 
-<!-- كيرسور مخصص -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<div class="grad-bg"></div>
+<div class="shape s1"></div>
+<div class="shape s2"></div>
+<div class="shape s3"></div>
 
-<!-- الـ blobs في الخلفية -->
-<div class="blob blob-1"></div>
-<div class="blob blob-2"></div>
-<div class="blob blob-3"></div>
-
-<!-- ══════════ HEADER ══════════ -->
+<!-- HEADER -->
 <header>
-  <div>
-    <div class="logo-text">Pizzeria Roma</div>
-    <div class="logo-sub">أصل الطعم الإيطالي</div>
+  <div class="logo">
+    Mr. Adam
+    <span>English Tutor ✦ مدرس إنجليزي</span>
   </div>
   <nav>
-    <a href="#menu">المينيو</a>
-    <a href="#booking">احجز طاولة</a>
-    <a href="#reviews">آراء العملاء</a>
-    <a href="#location">موقعنا</a>
-    <a href="#booking" class="nav-cta">🍕 احجز دلوقتي</a>
+    <a href="#about">عني</a>
+    <a href="#booking">احجز سيشن</a>
+    <a href="#pricing">الأسعار</a>
+    <a href="#reviews">آراء الطلاب</a>
+    <a href="#booking" class="book-nav">🎓 ابدأ دلوقتي</a>
   </nav>
-  <button class="hamburger" onclick="openMobileNav()">
+  <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
     <span></span><span></span><span></span>
   </button>
 </header>
 
-<!-- موبايل ناف -->
-<div class="mobile-nav" id="mobileNav">
-  <button class="close-mobile" onclick="closeMobileNav()">✕</button>
-  <a href="#menu" onclick="closeMobileNav()">🍕 المينيو</a>
-  <a href="#booking" onclick="closeMobileNav()">📅 احجز طاولة</a>
-  <a href="#reviews" onclick="closeMobileNav()">⭐ آراء العملاء</a>
-  <a href="#location" onclick="closeMobileNav()">📍 موقعنا</a>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-menu" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
+  <a href="#about"   onclick="document.getElementById('mobileMenu').classList.remove('open')">👤 عني</a>
+  <a href="#booking" onclick="document.getElementById('mobileMenu').classList.remove('open')">📅 احجز سيشن</a>
+  <a href="#pricing" onclick="document.getElementById('mobileMenu').classList.remove('open')">💰 الأسعار</a>
+  <a href="#reviews" onclick="document.getElementById('mobileMenu').classList.remove('open')">⭐ آراء الطلاب</a>
 </div>
 
-<!-- ══════════ HERO ══════════ -->
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-content reveal">
-    <div class="hero-tag">🔥 الأكتر طلباً في المدينة</div>
+  <div class="hero-left reveal">
+    <div class="hero-tag">🌟 متاح للحجز دلوقتي</div>
     <h1>
-      البيتزا <span class="highlight">الحقيقية</span><br/>
-      من قلب إيطاليا
+      اتعلم <span class="grad">الإنجليزي</span><br/>
+      بطريقة مختلفة!
     </h1>
-    <p>بيتزا مصنوعة بعجينة طازجة يومياً، فرن حجر أصلي، ومكونات إيطالية فاخرة — كل بيتزا حكاية تانية!</p>
+    <p>مع Mr. Adam هتحس إنك بتتكلم مع صاحبك — مش بتحفظ من كتاب. أسلوب تفاعلي حديث بيخليك تتكلم بثقة من أول سيشن!</p>
     <div class="hero-btns">
-      <a href="#menu" class="btn-primary">🍽️ شوف المينيو</a>
-      <a href="#booking" class="btn-outline">📅 احجز طاولة</a>
+      <a href="#booking" class="btn-grad">📅 احجز سيشن تجريبي</a>
+      <a href="#about"   class="btn-outline">تعرف علي أكتر</a>
     </div>
     <div class="hero-stats">
-      <div class="stat"><span class="stat-num">+5K</span><span class="stat-label">عميل سعيد</span></div>
-      <div class="stat"><span class="stat-num">4.9★</span><span class="stat-label">متوسط التقييم</span></div>
-      <div class="stat"><span class="stat-num">+30</span><span class="stat-label">صنف في المينيو</span></div>
-      <div class="stat"><span class="stat-num">8 سنين</span><span class="stat-label">خبرة وشغف</span></div>
+      <div class="hstat"><span class="hstat-num">+500</span><span class="hstat-label">طالب متخرج</span></div>
+      <div class="hstat"><span class="hstat-num">4.9★</span><span class="hstat-label">متوسط التقييم</span></div>
+      <div class="hstat"><span class="hstat-num">7 سنين</span><span class="hstat-label">خبرة في التدريس</span></div>
     </div>
   </div>
-  <div class="hero-pizza">🍕</div>
-</section>
-
-<!-- ══════════ MENU ══════════ -->
-<section id="menu">
-  <div class="menu-inner">
-    <div class="menu-head reveal">
-      <p class="sec-label">Our Menu</p>
-      <h2 class="sec-title">المينيو بتاعنا 😍</h2>
-      <p class="sec-desc">كل صنف بيتعمل بأجود المكونات وبحب تحس بيه في كل لقمة</p>
+  <div class="hero-right reveal">
+    <div style="position:relative;display:inline-block">
+      <div class="teacher-card">
+        <div class="teacher-avatar">👨‍🏫</div>
+        <div class="teacher-name">Mr. Adam</div>
+        <div class="teacher-title">IELTS & Business English Expert</div>
+        <div class="teacher-stats">
+          <div class="t-stat"><div class="t-stat-num">500+</div><div class="t-stat-label">طالب</div></div>
+          <div class="t-stat"><div class="t-stat-num">4.9</div><div class="t-stat-label">تقييم</div></div>
+          <div class="t-stat"><div class="t-stat-num">7yr</div><div class="t-stat-label">خبرة</div></div>
+        </div>
+        <div class="available-badge"><div class="available-dot"></div> متاح للحجز</div>
+      </div>
+      <div class="float-tag tag1">🎯 IELTS Band 8+</div>
+      <div class="float-tag tag2">💬 Conversation Pro</div>
+      <div class="float-tag tag3">📚 Business English</div>
     </div>
-    <div class="menu-tabs reveal">
-      <button class="tab-btn active" onclick="filterMenu('all',this)">🍽️ الكل</button>
-      <button class="tab-btn" onclick="filterMenu('pizza',this)">🍕 بيتزا</button>
-      <button class="tab-btn" onclick="filterMenu('pasta',this)">🍝 باستا</button>
-      <button class="tab-btn" onclick="filterMenu('drinks',this)">🥤 مشروبات</button>
-      <button class="tab-btn" onclick="filterMenu('desserts',this)">🍮 ديسيرت</button>
-    </div>
-    <div class="menu-grid" id="menuGrid"></div>
   </div>
 </section>
 
-<!-- ══════════ BOOKING ══════════ -->
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-inner">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <div class="about-img">👨‍🏫</div>
+        <div class="about-badge ab1">🎓 Cambridge Certified</div>
+        <div class="about-badge ab2">⭐ Top Rated Tutor</div>
+      </div>
+      <div class="about-info reveal">
+        <div class="sec-tag">About Me</div>
+        <h2 class="about-title">مين أنا وليه<br/><span class="grad">هتفرق معاك؟</span></h2>
+        <p class="about-text">
+          أنا Adam، مدرس إنجليزي بخبرة 7 سنين في تدريس الـ IELTS والـ Business English والـ Conversation.
+          درّست أكتر من 500 طالب من مستويات مختلفة ووصلوا لأهدافهم.
+        </p>
+        <p class="about-text">
+          أسلوبي بيعتمد على الفهم والتطبيق — مش الحفظ والتلقين. هتحس من أول سيشن إن الإنجليزي مش صعب، بس محتاج الطريقة الصح!
+        </p>
+        <div class="skills">
+          <span class="skill-tag">IELTS</span>
+          <span class="skill-tag">TOEFL</span>
+          <span class="skill-tag">Business English</span>
+          <span class="skill-tag">Conversation</span>
+          <span class="skill-tag">Grammar</span>
+          <span class="skill-tag">Pronunciation</span>
+          <span class="skill-tag">Writing</span>
+        </div>
+        <div class="skill-bars">
+          <div class="skill-bar-item">
+            <div class="skill-bar-head"><span>IELTS Preparation</span><span>95%</span></div>
+            <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:95%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-head"><span>Business English</span><span>90%</span></div>
+            <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:90%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-head"><span>Conversation & Speaking</span><span>98%</span></div>
+            <div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:98%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
 <section id="booking">
-  <div class="booking-inner">
-    <div class="booking-info reveal">
-      <p class="sec-label">Reserve a Table</p>
-      <h2 class="sec-title">احجز طاولتك<br/>دلوقتي! 🎉</h2>
-      <p class="sec-desc">استمتع بتجربة أكل لا تُنسى في أجواء إيطالية حقيقية — احجز وسيبنا نهتم بالباقي.</p>
-      <div class="booking-perks">
-        <div class="perk"><div class="perk-icon">✅</div> تأكيد الحجز فوري على الواتساب</div>
-        <div class="perk"><div class="perk-icon">🎂</div> مفاجأة مجانية للأعياد والمناسبات</div>
-        <div class="perk"><div class="perk-icon">🅿️</div> پاركينج مجاني لعملائنا</div>
-        <div class="perk"><div class="perk-icon">🍷</div> كأس ترحيب مجاني مع كل حجز</div>
+  <div class="sec-inner">
+    <div class="booking-grid">
+      <div class="booking-info reveal">
+        <div class="sec-tag">Book a Session</div>
+        <h2 class="sec-title">احجز سيشنك<br/>دلوقتي! 🚀</h2>
+        <p class="sec-desc">أول سيشن تجريبي بنصف السعر — اتعرف على الأسلوب واحكم بنفسك.</p>
+        <div class="booking-perks">
+          <div class="perk"><div class="perk-icon">✅</div> تأكيد فوري على الإيميل والواتساب</div>
+          <div class="perk"><div class="perk-icon">🎯</div> أول سيشن — تقييم مجاني لمستواك</div>
+          <div class="perk"><div class="perk-icon">📱</div> أونلاين على Zoom أو Google Meet</div>
+          <div class="perk"><div class="perk-icon">📝</div> ملخص وواجب بعد كل سيشن</div>
+          <div class="perk"><div class="perk-icon">🔄</div> إلغاء مجاني قبل 24 ساعة</div>
+        </div>
       </div>
-    </div>
-    <div class="booking-form reveal">
-      <div id="formWrap">
-        <h3>احجز طاولتك 🍕</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label>الاسم</label>
-            <input type="text" id="fname" placeholder="اسمك الكريم"/>
+      <div class="booking-form-wrap reveal">
+        <div id="bookFormWrap">
+          <h3>📅 احجز سيشنك</h3>
+          <div class="form-2col">
+            <div class="fg"><label>الاسم</label><input type="text" id="bName" placeholder="اسمك"/></div>
+            <div class="fg"><label>الإيميل</label><input type="email" id="bEmail" placeholder="email@example.com"/></div>
           </div>
-          <div class="form-group">
-            <label>رقم الموبايل</label>
-            <input type="tel" id="fphone" placeholder="01xxxxxxxxx"/>
+          <div class="form-2col">
+            <div class="fg"><label>التاريخ</label><input type="date" id="bDate"/></div>
+            <div class="fg"><label>الوقت</label><input type="time" id="bTime" value="18:00"/></div>
           </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>التاريخ</label>
-            <input type="date" id="fdate"/>
-          </div>
-          <div class="form-group">
-            <label>الوقت</label>
-            <input type="time" id="ftime" value="19:00"/>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>عدد الأشخاص</label>
-            <select id="fguests">
-              <option>1 شخص</option>
-              <option selected>2 أشخاص</option>
-              <option>3 أشخاص</option>
-              <option>4 أشخاص</option>
-              <option>5 أشخاص</option>
-              <option>6+ أشخاص</option>
+          <div class="fg">
+            <label>نوع السيشن</label>
+            <select id="bType">
+              <option>سيشن تجريبي (نصف السعر) 🆕</option>
+              <option>IELTS Preparation 🎯</option>
+              <option>Business English 💼</option>
+              <option>Conversation Practice 💬</option>
+              <option>General English 📚</option>
             </select>
           </div>
-          <div class="form-group">
-            <label>المناسبة</label>
-            <select id="foccasion">
-              <option>عشاء عادي</option>
-              <option>عيد ميلاد 🎂</option>
-              <option>خطوبة 💍</option>
-              <option>اجتماع عمل</option>
-              <option>تجمع عيلي</option>
+          <div class="fg">
+            <label>مستواك الحالي</label>
+            <select id="bLevel">
+              <option>مبتدئ — Beginner</option>
+              <option>متوسط — Intermediate</option>
+              <option>متقدم — Advanced</option>
+              <option>مش عارف</option>
             </select>
           </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group form-full">
-            <label>طلبات خاصة</label>
-            <textarea id="fnotes" placeholder="حساسية من أكل معين؟ طلب خاص؟ قولنا!"></textarea>
+          <div class="fg">
+            <label>إيه هدفك؟</label>
+            <textarea id="bGoal" placeholder="مثلاً: عايز أحقق Band 7 في IELTS خلال 3 شهور..."></textarea>
           </div>
+          <button class="book-submit" onclick="submitBooking()">🚀 تأكيد الحجز</button>
         </div>
-        <button class="submit-btn" onclick="submitBooking()">
-          🎉 تأكيد الحجز
-        </button>
-      </div>
-      <div class="success-msg" id="successMsg">
-        <span class="tick">🎉</span>
-        <h4>تم الحجز بنجاح!</h4>
-        <p>هنتواصل معاك خلال 10 دقايق على الواتساب لتأكيد الحجز.</p>
-        <br/>
-        <p style="color:var(--red);font-weight:700">شكراً لاختيارك Pizzeria Roma! 🍕</p>
+        <div class="book-success" id="bookSuccess">
+          <span class="tick">🎉</span>
+          <h4>تم الحجز بنجاح!</h4>
+          <p>هيوصلك تأكيد على إيميلك خلال دقايق.<br/>بالتوفيق في رحلتك مع الإنجليزي! 🌟</p>
+          <br/><p style="color:var(--purple);font-weight:700">شكراً لاختيارك Mr. Adam 🎓</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ REVIEWS ══════════ -->
-<section id="reviews">
-  <div class="reviews-inner">
-    <div class="reviews-head reveal">
-      <p class="sec-label">Customer Reviews</p>
-      <h2 class="sec-title">إيه اللي بيقولوه عننا ⭐</h2>
-      <p class="sec-desc">آراء حقيقية من عملاء حقيقيين — كلامهم هو اللي بيفرحنا كل يوم</p>
+<!-- PRICING -->
+<section id="pricing">
+  <div class="sec-inner">
+    <div class="sec-head reveal">
+      <div class="sec-tag">Pricing Plans</div>
+      <h2 class="sec-title">الأسعار والباكدجات 💰</h2>
+      <p class="sec-desc">اختار الباكدج اللي يناسبك — وكلما زادت السيشنز كلما وفرت أكتر!</p>
     </div>
-    <div class="overall-rating reveal">
-      <div class="big-rating">4.9</div>
-      <div class="rating-details">
-        <div class="rating-stars">★★★★★</div>
-        <div class="rating-count">من أصل +1,200 تقييم</div>
-      </div>
+    <div class="pricing-grid" id="pricingGrid"></div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="sec-inner">
+    <div class="sec-head reveal">
+      <div class="sec-tag">Student Reviews</div>
+      <h2 class="sec-title">طلابي بيقولوا إيه ⭐</h2>
+      <p class="sec-desc">آراء حقيقية من طلاب وصلوا لأهدافهم</p>
     </div>
     <div class="reviews-grid" id="reviewsGrid"></div>
   </div>
 </section>
 
-<!-- ══════════ LOCATION ══════════ -->
-<section id="location">
-  <div class="location-inner">
-    <div class="location-info reveal">
-      <p class="sec-label">Find Us</p>
-      <h2 class="sec-title">فين هتلاقينا؟ 📍</h2>
-      <p class="sec-desc">في قلب المدينة — هتلاقينا بسهولة وفي انتظارك دايماً</p>
-      <div class="info-cards">
-        <div class="info-card">
-          <div class="info-icon red">📍</div>
-          <div>
-            <div class="info-card-title">العنوان</div>
-            <div class="info-card-val">12 شارع النيل، وسط البلد، القاهرة<br/>بجوار محطة مترو السادات</div>
-          </div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon orange">🕐</div>
-          <div>
-            <div class="info-card-title">مواعيد العمل</div>
-            <div class="info-card-val">السبت – الخميس: 12 ظهر – 1 صباحاً<br/>الجمعة: 2 عصر – 2 صباحاً</div>
-          </div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon green">📞</div>
-          <div>
-            <div class="info-card-title">اتصل بنا</div>
-            <div class="info-card-val">01234567890<br/>01098765432 (واتساب)</div>
-          </div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon blue">🚗</div>
-          <div>
-            <div class="info-card-title">التوصيل</div>
-            <div class="info-card-val">توصيل مجاني فوق 150 جنيه<br/>في نطاق 10 كيلو</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- الخريطة — غير الـ src بخريطة موقعك الحقيقي -->
-    <div class="map-wrap reveal">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3454.0!2d31.2357!3d30.0444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAyJzM5LjgiTiAzMcKwMTQnMDguNSJF!5e0!3m2!1sar!2seg!4v1234567890"
-        allowfullscreen loading="lazy">
-      </iframe>
-    </div>
-  </div>
-</section>
+<!-- CTA -->
+<div class="cta-strip">
+  <h2>مستني إيه؟ 🎯</h2>
+  <p>احجز سيشنك التجريبي النهارده وابدأ رحلتك مع الإنجليزي بجد!</p>
+  <a href="#booking" class="cta-strip-btn">🚀 احجز دلوقتي</a>
+</div>
 
-<!-- ══════════ FOOTER ══════════ -->
+<!-- FOOTER -->
 <footer>
-  <span class="footer-logo">Pizzeria Roma</span>
-  <p class="footer-tagline">🍕 بيتزا بحب — منذ 2016</p>
+  <span class="footer-logo">Mr. Adam</span>
+  <p style="font-size:.82rem;margin-bottom:1rem">English Tutor • IELTS Expert • Conversation Coach</p>
   <div class="footer-links">
-    <a href="#menu">المينيو</a>
-    <a href="#booking">الحجز</a>
-    <a href="#reviews">التقييمات</a>
-    <a href="#location">موقعنا</a>
+    <a href="#about">عني</a>
+    <a href="#booking">احجز سيشن</a>
+    <a href="#pricing">الأسعار</a>
+    <a href="#reviews">آراء الطلاب</a>
   </div>
-  <div class="social-links">
-    <a class="social-btn" href="#">📘</a>
-    <a class="social-btn" href="#">📸</a>
-    <a class="social-btn" href="#">🎵</a>
-    <a class="social-btn" href="#">💬</a>
+  <div class="social-row">
+    <a class="soc-btn" href="#">📘</a>
+    <a class="soc-btn" href="#">📸</a>
+    <a class="soc-btn" href="#">💼</a>
+    <a class="soc-btn" href="#">▶️</a>
   </div>
-  <p class="footer-copy">© 2025 Pizzeria Roma — جميع الحقوق محفوظة</p>
+  <p class="footer-copy">© 2025 Mr. Adam — جميع الحقوق محفوظة</p>
 </footer>
 
 <div id="toast"></div>
 
 <script>
-/* ══════════════════════════════
-   بيانات المينيو
-══════════════════════════════ */
-const MENU = [
-  // بيتزا
-  {cat:'pizza', name:'Margherita الكلاسيك',     emoji:'🍕', price:89,  desc:'صوص طماطم، موزاريلا طازجة، ريحان أخضر',         popular:true},
-  {cat:'pizza', name:'Pepperoni Hot',           emoji:'🍕', price:109, desc:'شرائح پيپيروني، جبن مزدوج، فلفل حار',            popular:false},
-  {cat:'pizza', name:'BBQ Chicken',             emoji:'🍕', price:119, desc:'دجاج مشوي، صوص BBQ، بصل كراميل، موزاريلا',       popular:true},
-  {cat:'pizza', name:'Quattro Formaggi',        emoji:'🍕', price:129, desc:'4 أنواع جبن إيطالي — للمحبين بس!',               popular:false},
-  {cat:'pizza', name:'Veggie Supreme',          emoji:'🍕', price:99,  desc:'فلفل ملون، مشروم، زيتون، بصل، طماطم كيرز',      popular:false},
-  {cat:'pizza', name:'Seafood Delight',         emoji:'🍕', price:139, desc:'جمبري، كلاماري، صوص ثوم ليمون',                  popular:true},
-  // باستا
-  {cat:'pasta', name:'Spaghetti Bolognese',     emoji:'🍝', price:79,  desc:'سباجيتي مع صوص لحمة إيطالي كلاسيك',             popular:true},
-  {cat:'pasta', name:'Fettuccine Alfredo',      emoji:'🍝', price:89,  desc:'فتتشيني مع صوص كريمة وپارميزان',                 popular:false},
-  {cat:'pasta', name:'Penne Arrabbiata',        emoji:'🍝', price:75,  desc:'بيني مع صوص طماطم حار وثوم',                    popular:false},
-  {cat:'pasta', name:'Lasagna Al Forno',        emoji:'🍝', price:99,  desc:'لازانيا بالبيشاميل والبولونيز في الفرن',          popular:true},
-  // مشروبات
-  {cat:'drinks', name:'Limonata Italiana',      emoji:'🍋', price:35,  desc:'ليمون طازج مع نعناع وماء فوار إيطالي',           popular:true},
-  {cat:'drinks', name:'Mango Fresco',           emoji:'🥭', price:40,  desc:'مانجو طازج مع حليب وشربات فانيلا',               popular:false},
-  {cat:'drinks', name:'Iced Cappuccino',        emoji:'☕', price:45,  desc:'كابتشينو مثلج مع كريمة وكراميل',                 popular:false},
-  {cat:'drinks', name:'Smoothie Mix',           emoji:'🥤', price:50,  desc:'فراولة وموز وعسل وحليب طازج',                   popular:true},
-  // ديسيرت
-  {cat:'desserts', name:'Tiramisu Originale',   emoji:'🍮', price:65,  desc:'تيراميسو إيطالي أصلي — الوصفة السرية!',          popular:true},
-  {cat:'desserts', name:'Nutella Pizza',        emoji:'🍫', price:75,  desc:'عجينة بيتزا حلوة مع نوتيلا وفراولة',             popular:true},
-  {cat:'desserts', name:'Panna Cotta',          emoji:'🍮', price:55,  desc:'پانا كوتا فانيلا مع كولي توت حمراء',             popular:false},
+/* ══ بيانات الباكدجات ══ */
+const PLANS = [
+  {
+    icon:'⚡', name:'سيشن واحد', desc:'جرب الأسلوب وشوف بنفسك',
+    price:'150', per:'لكل سيشن',
+    features:['سيشن 60 دقيقة','تقييم مستواك مجاناً','ملخص بعد السيشن','واتساب للأسئلة'],
+    no:['خصم على الباكدج','أولوية الحجز'],
+    popular:false
+  },
+  {
+    icon:'🎯', name:'باكدج شهري', desc:'الأكتر طلباً — 8 سيشنز في الشهر',
+    price:'999', per:'في الشهر (توفير 20%)',
+    features:['8 سيشنز × 60 دقيقة','تقييم أسبوعي للتقدم','ملخص وواجب بعد كل سيشن','واتساب 24/7','خطة دراسية مخصصة','مواد مجانية'],
+    no:[],
+    popular:true
+  },
+  {
+    icon:'🏆', name:'باكدج IELTS', desc:'تحضير مكثف للـ IELTS في 3 شهور',
+    price:'2500', per:'لمدة 3 شهور',
+    features:['24 سيشن مخصص IELTS','اختبارات تجريبية أسبوعية','تصحيح Writing مفصل','تدريب Speaking مكثف','ضمان تحسين الدرجة','أولوية في الحجز'],
+    no:[],
+    popular:false
+  },
 ];
 
-/* بيانات التقييمات */
+/* ══ بيانات التقييمات ══ */
 const REVIEWS_DATA = [
-  {name:'أحمد السيد',    avatar:'أ', color:'#E63946', stars:5, date:'مارس 2025',   text:'والله تجربة لا تُنسى! البيتزا جت سخنة وطعمها بالظبط زي اللي باكله في إيطاليا. الخدمة ممتازة والجو رومانسي جداً.'},
-  {name:'نورا محمد',     avatar:'ن', color:'#F4A261', stars:5, date:'فبراير 2025', text:'احتفلت بعيد ميلادي هناك وكانت مفاجأة التورتة فاجأتني جداً 🎂 شكراً فريق Pizzeria Roma الرائع!'},
-  {name:'كريم عبدالله',  avatar:'ك', color:'#06D6A0', stars:5, date:'يناير 2025',  text:'أحسن لازانيا أكلتها في حياتي — جربت كتير بس دي مستوى تاني. هرجع بالتأكيد وهجيب أهلي!'},
-  {name:'سارة إبراهيم',  avatar:'س', color:'#118AB2', stars:4, date:'ديسمبر 2024', text:'الأكل تحفة والخدمة سريعة. الجو حلو جداً ومناسب للعيلة. النقطة الوحيدة إن الپاركينج بيتملي بسرعة.'},
-  {name:'محمود حسن',     avatar:'م', color:'#9B5DE5', stars:5, date:'نوفمبر 2024', text:'Pepperoni Hot 🔥 اسمها بيعبر عنها! حار وبالظبط زي ما بحب. جربت مطاعم كتير في المدينة وده الأفضل.'},
-  {name:'ياسمين طارق',   avatar:'ي', color:'#F15BB5', stars:5, date:'أكتوبر 2024', text:'الـ Tiramisu ده مش بيشبه أي حاجة تانية. حسيت إني في روما! السعر كويس جداً مقارنة بالجودة الممتازة.'},
+  {name:'محمد علي',     avatar:'م', color:'#7C3AED', stars:5, level:'IELTS Band 7.5', date:'مارس 2025',   text:'حصلت على Band 7.5 في IELTS بعد 3 شهور مع Mr. Adam! الأسلوب مختلف جداً — مش حفظ ومراجعة، ده فهم حقيقي للغة.'},
+  {name:'سارة حسن',     avatar:'س', color:'#EC4899', stars:5, level:'Business English', date:'فبراير 2025', text:'كنت بخاف أتكلم إنجليزي في الشغل، دلوقتي بعمل presentations كاملة بثقة. Mr. Adam غير حياتي المهنية!'},
+  {name:'كريم أحمد',    avatar:'ك', color:'#06B6D4', stars:5, level:'Conversation',    date:'يناير 2025',  text:'جربت مدرسين كتير قبله بس ما لقيتش حد بيوصل المعلومة زيه. السيشنز بتعدي بسرعة لأنها ممتعة جداً.'},
+  {name:'نورا إبراهيم',  avatar:'ن', color:'#10B981', stars:5, level:'General English', date:'ديسمبر 2024', text:'ابني كان ضعيف في الإنجليزي وخلال شهرين بقى من الأوائل في الفصل. شكراً جزيلاً Mr. Adam!'},
+  {name:'عمر طارق',     avatar:'ع', color:'#F59E0B', stars:4, level:'IELTS Band 6.5', date:'نوفمبر 2024', text:'وصلت للدرجة اللي محتاجها للسفر. السيشنز منظمة ومفيدة جداً، بنصح بيه لأي حد عايز يتقدم.'},
+  {name:'ياسمين محمود',  avatar:'ي', color:'#EF4444', stars:5, level:'Business English', date:'أكتوبر 2024', text:'اشتغلت في شركة أجنبية بعد ما اتعلمت Business English مع Mr. Adam. استثمار بحق وحقيق!'},
 ];
 
-/* ══════════════════════════════
-   الكيرسور المخصص
-══════════════════════════════ */
-const cursor     = document.getElementById('cursor');
-const cursorRing = document.getElementById('cursorRing');
-
-document.addEventListener('mousemove', e => {
-  cursor.style.left     = e.clientX + 'px';
-  cursor.style.top      = e.clientY + 'px';
-  cursorRing.style.left = e.clientX + 'px';
-  cursorRing.style.top  = e.clientY + 'px';
-});
-
-/* تكبير الكيرسور على الأزرار */
-document.querySelectorAll('a, button').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.transform     = 'translate(-50%,-50%) scale(1.8)';
-    cursorRing.style.transform = 'translate(-50%,-50%) scale(0.5)';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.transform     = 'translate(-50%,-50%) scale(1)';
-    cursorRing.style.transform = 'translate(-50%,-50%) scale(1)';
-  });
-});
-
-/* ══════════════════════════════
-   ناف الموبايل
-══════════════════════════════ */
-function openMobileNav()  { document.getElementById('mobileNav').classList.add('open'); }
-function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
-
-/* ══════════════════════════════
-   المينيو — فلتر وعرض
-══════════════════════════════ */
-let currentCat = 'all';
-
-function filterMenu(cat, btn) {
-  currentCat = cat;
-  /* تحديث التابات */
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderMenu();
-}
-
-function renderMenu() {
-  const list = currentCat === 'all'
-    ? MENU
-    : MENU.filter(i => i.cat === currentCat);
-
-  document.getElementById('menuGrid').innerHTML = list.map((item, i) => `
-    <div class="menu-card cat-${item.cat}" style="animation-delay:${i * .06}s">
-      ${item.popular ? '<div class="popular-badge">⭐ الأكتر طلباً</div>' : ''}
-      <div class="menu-card-img">${item.emoji}</div>
-      <div class="menu-card-body">
-        <div class="menu-card-name">${item.name}</div>
-        <div class="menu-card-desc">${item.desc}</div>
-        <div class="menu-card-footer">
-          <div class="menu-card-price">${item.price} <span>جنيه</span></div>
-          <button class="add-btn" onclick="addItem('${item.name}')">+</button>
-        </div>
+/* ══ رسم الباكدجات ══ */
+function renderPricing(){
+  document.getElementById('pricingGrid').innerHTML = PLANS.map(p => `
+    <div class="price-card${p.popular?' popular':''}">
+      ${p.popular ? '<div class="popular-label">⭐ الأكتر طلباً</div>' : ''}
+      <span class="price-icon">${p.icon}</span>
+      <div class="price-name">${p.name}</div>
+      <div class="price-desc">${p.desc}</div>
+      <div class="price-val">${p.price} ج.م</div>
+      <div class="price-per">${p.per}</div>
+      <div class="price-features">
+        ${p.features.map(f => `<div class="pf">${f}</div>`).join('')}
+        ${p.no.map(f => `<div class="pf no">${f}</div>`).join('')}
       </div>
+      <button class="price-btn" onclick="selectPlan('${p.name}')">اختر الباكدج ده</button>
     </div>
   `).join('');
 }
 
-/* ══════════════════════════════
-   إضافة للسلة (بسيطة)
-══════════════════════════════ */
-function addItem(name) {
-  showToast(`🍕 تم إضافة "${name}" للطلب!`);
+function selectPlan(name){
+  /* تحديد الباكدج في فورم الحجز */
+  document.getElementById('bType').value = name;
+  document.getElementById('booking').scrollIntoView({behavior:'smooth'});
+  showToast(`✅ تم اختيار "${name}" — اكمل بيانات الحجز`);
 }
 
-/* ══════════════════════════════
-   فورم الحجز
-══════════════════════════════ */
-function submitBooking() {
-  const name  = document.getElementById('fname').value.trim();
-  const phone = document.getElementById('fphone').value.trim();
-  const date  = document.getElementById('fdate').value;
-  const time  = document.getElementById('ftime').value;
+/* ══ رسم التقييمات ══ */
+function renderReviews(){
+  document.getElementById('reviewsGrid').innerHTML = REVIEWS_DATA.map((r,i) => `
+    <div class="review-card" style="animation-delay:${i*.08}s">
+      <div class="reviewer">
+        <div class="rev-avatar" style="background:${r.color}">${r.avatar}</div>
+        <div>
+          <div class="rev-name">${r.name}</div>
+          <div class="rev-meta">${r.date}</div>
+        </div>
+      </div>
+      <div class="rev-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+      <div class="rev-text">${r.text}</div>
+      <div class="rev-level">🎯 ${r.level}</div>
+    </div>
+  `).join('');
+}
 
-  /* تحقق بسيط */
-  if(!name || !phone || !date || !time) {
+/* ══ فورم الحجز ══ */
+function submitBooking(){
+  const name  = document.getElementById('bName').value.trim();
+  const email = document.getElementById('bEmail').value.trim();
+  const date  = document.getElementById('bDate').value;
+  const time  = document.getElementById('bTime').value;
+
+  if(!name || !email || !date || !time){
     showToast('⚠️ من فضلك اكمل البيانات المطلوبة');
     return;
   }
 
-  /* إخفاء الفورم وإظهار رسالة النجاح */
-  document.getElementById('formWrap').style.display  = 'none';
-  document.getElementById('successMsg').style.display = 'block';
+  document.getElementById('bookFormWrap').style.display = 'none';
+  document.getElementById('bookSuccess').style.display  = 'block';
 }
 
-/* ══════════════════════════════
-   التقييمات
-══════════════════════════════ */
-function renderReviews() {
-  document.getElementById('reviewsGrid').innerHTML = REVIEWS_DATA.map((r, i) => `
-    <div class="review-card" style="animation-delay:${i * .08}s">
-      <div class="reviewer">
-        <div class="reviewer-avatar" style="background:${r.color}">${r.avatar}</div>
-        <div>
-          <div class="reviewer-name">${r.name}</div>
-          <div class="reviewer-date">${r.date}</div>
-        </div>
-      </div>
-      <div class="review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
-      <div class="review-text">${r.text}</div>
-    </div>
-  `).join('');
-}
-
-/* ══════════════════════════════
-   التوست
-══════════════════════════════ */
-function showToast(msg) {
+/* ══ التوست ══ */
+function showToast(msg){
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
@@ -1091,27 +829,20 @@ function showToast(msg) {
   t._t = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-/* ══════════════════════════════
-   Scroll Reveal
-══════════════════════════════ */
+/* ══ Scroll Reveal ══ */
 const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting) e.target.classList.add('visible');
-  });
-}, { threshold: 0.1 });
-
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-/* ══════════════════════════════
-   تشغيل أول مرة
-══════════════════════════════ */
-renderMenu();
-renderReviews();
-
-/* تحديد تاريخ الحجز بيبدأ من النهارده */
+/* ══ تحديد تاريخ الحجز ══ */
 const today = new Date().toISOString().split('T')[0];
-document.getElementById('fdate').min   = today;
-document.getElementById('fdate').value = today;
+document.getElementById('bDate').min   = today;
+document.getElementById('bDate').value = today;
+
+/* ══ تشغيل أول مرة ══ */
+renderPricing();
+renderReviews();
 </script>
 </body>
 </html>
