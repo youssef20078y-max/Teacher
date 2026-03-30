@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pizzeria Roma — أحسن بيتزا في المدينة</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Tajawal:wght@300;400;500;700&family=Pacifico&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+:root{
+  --red:#E63946;
+  --orange:#F4A261;
+  --yellow:#FFD166;
+  --green:#06D6A0;
+  --blue:#118AB2;
+  --dark:#1a1a2e;
+  --cream:#FFF8F0;
+  --white:#ffffff;
+  --text:#2d2d2d;
+  --muted:#777;
+}
+
+body{
+  font-family:'Tajawal',sans-serif;
+  background:var(--cream);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ── CURSOR CUSTOM ── */
+* { cursor: none !important; }
+.cursor {
+  width: 20px; height: 20px;
+  background: var(--red);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.15s ease, background 0.3s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  width: 40px; height: 40px;
+  border: 2px solid var(--red);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99998;
+  transition: transform 0.3s ease, width 0.3s, height 0.3s;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+}
+
+/* ── FLOATING BLOBS ── */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+  animation: blobFloat 8s ease-in-out infinite;
+}
+.blob-1{width:400px;height:400px;background:var(--red);top:-100px;right:-100px;animation-delay:0s}
+.blob-2{width:300px;height:300px;background:var(--orange);bottom:20%;left:-80px;animation-delay:2s}
+.blob-3{width:350px;height:350px;background:var(--yellow);top:50%;right:10%;animation-delay:4s}
+@keyframes blobFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
+
+/* ══════════════════════════════
+   HEADER
+══════════════════════════════ */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255,248,240,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid var(--yellow);
+  transition: all 0.3s;
+}
+.logo-text {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.8rem;
+  color: var(--red);
+  line-height: 1;
+}
+.logo-sub {
+  font-size: .7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: 'Tajawal', sans-serif;
+}
+nav { display: flex; gap: 2rem; }
+nav a {
+  font-size: .9rem;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  position: relative;
+  transition: color .3s;
+}
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; right: 0;
+  width: 0; height: 2px;
+  background: var(--red);
+  transition: width .3s;
+}
+nav a:hover { color: var(--red); }
+nav a:hover::after { width: 100%; }
+.nav-cta {
+  background: var(--red);
+  color: white !important;
+  padding: .5rem 1.3rem;
+  border-radius: 50px;
+  font-weight: 700 !important;
+  transition: transform .2s, box-shadow .2s !important;
+}
+.nav-cta:hover { transform: translateY(-2px) !important; box-shadow: 0 6px 20px rgba(230,57,70,.4) !important; }
+.nav-cta::after { display: none !important; }
+
+/* ── HAMBURGER ── */
+.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
+.hamburger span { width: 25px; height: 2px; background: var(--text); transition: all .3s; border-radius: 2px; }
+.mobile-nav {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--cream);
+  z-index: 99;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a { font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--text); text-decoration: none; }
+.mobile-nav a:hover { color: var(--red); }
+.close-mobile { position: absolute; top: 1.5rem; left: 1.5rem; background: none; border: none; font-size: 1.8rem; color: var(--text); }
+
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 3rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-content { position: relative; z-index: 2; max-width: 600px; }
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: var(--yellow);
+  color: var(--dark);
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: .4rem 1rem;
+  border-radius: 50px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 1.05;
+  color: var(--dark);
+  margin-bottom: 1.2rem;
+}
+.hero h1 .highlight {
+  color: var(--red);
+  position: relative;
+  display: inline-block;
+}
+.hero h1 .highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; right: 0;
+  width: 100%; height: 6px;
+  background: var(--yellow);
+  z-index: -1;
+  border-radius: 4px;
+}
+.hero p {
+  font-size: 1.1rem;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  max-width: 480px;
+}
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--red);
+  color: white;
+  border: none;
+  padding: .85rem 2rem;
+  border-radius: 50px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(230,57,70,.35); }
+.btn-outline {
+  background: transparent;
+  color: var(--dark);
+  border: 2px solid var(--dark);
+  padding: .85rem 2rem;
+  border-radius: 50px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+.btn-outline:hover { background: var(--dark); color: white; }
+
+/* البيتزا الدايرة الكبيرة في الهيرو */
+.hero-pizza {
+  position: absolute;
+  left: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(500px, 45vw);
+  height: min(500px, 45vw);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--orange), var(--yellow));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: min(14rem, 25vw);
+  animation: pizzaSpin 20s linear infinite;
+  box-shadow: 0 20px 60px rgba(244,162,97,.4);
+  z-index: 1;
+}
+@keyframes pizzaSpin { from{transform:translateY(-50%) rotate(0)} to{transform:translateY(-50%) rotate(360deg)} }
+
+/* الأرقام الإحصائية */
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+}
+.stat { text-align: center; }
+.stat-num {
+  font-family: 'Fredoka One', cursive;
+  font-size: 2rem;
+  color: var(--red);
+  display: block;
+}
+.stat-label { font-size: .78rem; color: var(--muted); letter-spacing: 1px; }
+
+/* ══════════════════════════════
+   SECTION STYLES
+══════════════════════════════ */
+section { padding: 5rem 3rem; position: relative; z-index: 1; }
+.sec-label {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: .6rem;
+}
+.sec-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--dark);
+  margin-bottom: .5rem;
+  line-height: 1.1;
+}
+.sec-desc { color: var(--muted); font-size: 1rem; line-height: 1.7; max-width: 500px; }
+
+/* ══════════════════════════════
+   MENU
+══════════════════════════════ */
+#menu { background: var(--white); }
+.menu-inner { max-width: 1200px; margin: 0 auto; }
+.menu-head { text-align: center; margin-bottom: 3rem; }
+.menu-head .sec-desc { margin: 0 auto; }
+
+/* تابات الفئات */
+.menu-tabs {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+.tab-btn {
+  background: transparent;
+  border: 2px solid var(--text);
+  color: var(--text);
+  padding: .5rem 1.3rem;
+  border-radius: 50px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: .88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .25s;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.tab-btn:hover, .tab-btn.active {
+  background: var(--red);
+  border-color: var(--red);
+  color: white;
+}
+
+/* جريد المنيو */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.menu-card {
+  background: var(--cream);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform .3s, box-shadow .3s;
+  animation: cardPop .4s ease both;
+  position: relative;
+}
+.menu-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,.1); }
+@keyframes cardPop { from{opacity:0;transform:scale(.95)} to{opacity:1;transform:scale(1)} }
+.menu-card-img {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  position: relative;
+  overflow: hidden;
+}
+.menu-card-img::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .15;
+}
+.cat-pizza .menu-card-img::before { background: linear-gradient(135deg,var(--red),var(--orange)); }
+.cat-pasta .menu-card-img::before { background: linear-gradient(135deg,var(--orange),var(--yellow)); }
+.cat-drinks .menu-card-img::before { background: linear-gradient(135deg,var(--blue),var(--green)); }
+.cat-desserts .menu-card-img::before { background: linear-gradient(135deg,var(--yellow),var(--orange)); }
+
+.menu-card-body { padding: 1.2rem; }
+.menu-card-name { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--dark); margin-bottom: .3rem; }
+.menu-card-desc { font-size: .82rem; color: var(--muted); line-height: 1.6; margin-bottom: .8rem; }
+.menu-card-footer { display: flex; align-items: center; justify-content: space-between; }
+.menu-card-price { font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: var(--red); }
+.menu-card-price span { font-size: .8rem; font-family: 'Tajawal',sans-serif; color: var(--muted); }
+.add-btn {
+  background: var(--red);
+  color: white;
+  border: none;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.add-btn:hover { transform: scale(1.15); box-shadow: 0 5px 15px rgba(230,57,70,.4); }
+
+/* باج الأكتر طلباً */
+.popular-badge {
+  position: absolute;
+  top: .8rem; right: .8rem;
+  background: var(--yellow);
+  color: var(--dark);
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: .25rem .6rem;
+  border-radius: 50px;
+  text-transform: uppercase;
+}
+
+/* ══════════════════════════════
+   BOOKING
+══════════════════════════════ */
+#booking {
+  background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+#booking::before {
+  content: '🍕';
+  position: absolute;
+  font-size: 20rem;
+  opacity: .04;
+  right: -3rem;
+  bottom: -3rem;
+  transform: rotate(-20deg);
+}
+.booking-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.booking-info .sec-label { color: var(--yellow); }
+.booking-info .sec-title { color: white; }
+.booking-info .sec-desc { color: rgba(255,255,255,.6); max-width: 400px; }
+.booking-perks { margin-top: 2rem; display: flex; flex-direction: column; gap: .8rem; }
+.perk { display: flex; align-items: center; gap: .8rem; font-size: .9rem; color: rgba(255,255,255,.8); }
+.perk-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+
+/* فورم الحجز */
+.booking-form {
+  background: var(--cream);
+  border-radius: 24px;
+  padding: 2.5rem;
+  color: var(--text);
+}
+.booking-form h3 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.6rem;
+  color: var(--dark);
+  margin-bottom: 1.5rem;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.form-group { display: flex; flex-direction: column; gap: .4rem; }
+.form-group label { font-size: .78rem; font-weight: 700; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: var(--white);
+  border: 2px solid #e8e0d5;
+  border-radius: 12px;
+  padding: .7rem 1rem;
+  font-family: 'Tajawal', sans-serif;
+  font-size: .9rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color .3s;
+  width: 100%;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--red); }
+.form-group textarea { resize: none; height: 90px; }
+.form-full { grid-column: 1/-1; }
+.submit-btn {
+  width: 100%;
+  background: var(--red);
+  color: white;
+  border: none;
+  padding: .9rem;
+  border-radius: 12px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  margin-top: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+}
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(230,57,70,.4); }
+.success-msg {
+  display: none;
+  text-align: center;
+  padding: 2rem;
+}
+.success-msg .tick { font-size: 3rem; margin-bottom: 1rem; display: block; }
+.success-msg h4 { font-family: 'Fredoka One', cursive; font-size: 1.5rem; color: var(--green); margin-bottom: .5rem; }
+.success-msg p { color: var(--muted); font-size: .9rem; }
+
+/* ══════════════════════════════
+   REVIEWS
+══════════════════════════════ */
+#reviews { background: var(--cream); }
+.reviews-inner { max-width: 1200px; margin: 0 auto; }
+.reviews-head { text-align: center; margin-bottom: 3rem; }
+.reviews-head .sec-desc { margin: 0 auto; }
+
+/* الريتينج الكلي */
+.overall-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+.big-rating {
+  font-family: 'Fredoka One', cursive;
+  font-size: 5rem;
+  color: var(--red);
+  line-height: 1;
+}
+.rating-details { text-align: right; }
+.rating-stars { color: var(--yellow); font-size: 1.5rem; margin-bottom: .3rem; }
+.rating-count { color: var(--muted); font-size: .85rem; }
+
+/* كروت التقييمات */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.review-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 1.5rem;
+  position: relative;
+  transition: transform .3s;
+  animation: cardPop .4s ease both;
+}
+.review-card:hover { transform: translateY(-5px); }
+.review-card::before {
+  content: '"';
+  font-family: 'Pacifico', cursive;
+  font-size: 4rem;
+  color: var(--yellow);
+  position: absolute;
+  top: .5rem; right: 1.2rem;
+  line-height: 1;
+  opacity: .5;
+}
+.reviewer { display: flex; align-items: center; gap: .8rem; margin-bottom: 1rem; }
+.reviewer-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+.reviewer-name { font-weight: 700; font-size: .95rem; color: var(--dark); }
+.reviewer-date { font-size: .75rem; color: var(--muted); }
+.review-stars { color: var(--yellow); font-size: .85rem; margin-bottom: .7rem; }
+.review-text { font-size: .88rem; color: var(--muted); line-height: 1.7; }
+
+/* ══════════════════════════════
+   MAP & INFO
+══════════════════════════════ */
+#location { background: var(--white); }
+.location-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+.location-info { }
+.info-cards { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+.info-card {
+  background: var(--cream);
+  border-radius: 16px;
+  padding: 1.2rem 1.4rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  transition: transform .3s;
+}
+.info-card:hover { transform: translateX(-5px); }
+.info-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.info-icon.red { background: rgba(230,57,70,.12); }
+.info-icon.orange { background: rgba(244,162,97,.2); }
+.info-icon.green { background: rgba(6,214,160,.15); }
+.info-icon.blue { background: rgba(17,138,178,.12); }
+.info-card-title { font-weight: 700; font-size: .9rem; color: var(--dark); margin-bottom: .2rem; }
+.info-card-val { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+
+/* الخريطة — iframe */
+.map-wrap {
+  border-radius: 24px;
+  overflow: hidden;
+  height: 420px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.1);
+  border: 4px solid var(--yellow);
+}
+.map-wrap iframe { width: 100%; height: 100%; border: none; }
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,.7);
+  padding: 3rem;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.2rem;
+  color: var(--yellow);
+  margin-bottom: .5rem;
+  display: block;
+}
+.footer-tagline { font-size: .85rem; margin-bottom: 2rem; }
+.footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+.footer-links a { color: rgba(255,255,255,.5); text-decoration: none; font-size: .85rem; transition: color .3s; }
+.footer-links a:hover { color: var(--yellow); }
+.social-links { display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; }
+.social-btn {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all .3s;
+}
+.social-btn:hover { background: var(--red); border-color: var(--red); transform: translateY(-3px); }
+.footer-copy { font-size: .75rem; color: rgba(255,255,255,.3); }
+
+/* ══════════════════════════════
+   TOAST
+══════════════════════════════ */
+#toast {
+  position: fixed;
+  bottom: 2rem; left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--dark);
+  color: white;
+  padding: .8rem 1.8rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: .85rem;
+  z-index: 9999;
+  transition: transform .4s cubic-bezier(.25,.46,.45,.94);
+  pointer-events: none;
+  border: 2px solid var(--yellow);
+  white-space: nowrap;
+}
+#toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ══════════════════════════════
+   SCROLL ANIMATIONS
+══════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media(max-width:768px){
+  header { padding: 1rem 1.5rem; }
+  nav { display: none; }
+  .hamburger { display: flex; }
+  .hero { padding: 6rem 1.5rem 3rem; flex-direction: column; text-align: center; }
+  .hero-pizza { position: relative; left: auto; top: auto; transform: none; width: 200px; height: 200px; font-size: 5rem; margin: 2rem auto 0; }
+  .hero-btns { justify-content: center; }
+  .hero-stats { justify-content: center; }
+  section { padding: 3.5rem 1.5rem; }
+  .booking-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .location-inner { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .map-wrap { height: 280px; }
+  * { cursor: auto !important; }
+  .cursor, .cursor-ring { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- كيرسور مخصص -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- الـ blobs في الخلفية -->
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<!-- ══════════ HEADER ══════════ -->
+<header>
+  <div>
+    <div class="logo-text">Pizzeria Roma</div>
+    <div class="logo-sub">أصل الطعم الإيطالي</div>
+  </div>
+  <nav>
+    <a href="#menu">المينيو</a>
+    <a href="#booking">احجز طاولة</a>
+    <a href="#reviews">آراء العملاء</a>
+    <a href="#location">موقعنا</a>
+    <a href="#booking" class="nav-cta">🍕 احجز دلوقتي</a>
+  </nav>
+  <button class="hamburger" onclick="openMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- موبايل ناف -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="close-mobile" onclick="closeMobileNav()">✕</button>
+  <a href="#menu" onclick="closeMobileNav()">🍕 المينيو</a>
+  <a href="#booking" onclick="closeMobileNav()">📅 احجز طاولة</a>
+  <a href="#reviews" onclick="closeMobileNav()">⭐ آراء العملاء</a>
+  <a href="#location" onclick="closeMobileNav()">📍 موقعنا</a>
+</div>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="hero-content reveal">
+    <div class="hero-tag">🔥 الأكتر طلباً في المدينة</div>
+    <h1>
+      البيتزا <span class="highlight">الحقيقية</span><br/>
+      من قلب إيطاليا
+    </h1>
+    <p>بيتزا مصنوعة بعجينة طازجة يومياً، فرن حجر أصلي، ومكونات إيطالية فاخرة — كل بيتزا حكاية تانية!</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-primary">🍽️ شوف المينيو</a>
+      <a href="#booking" class="btn-outline">📅 احجز طاولة</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">+5K</span><span class="stat-label">عميل سعيد</span></div>
+      <div class="stat"><span class="stat-num">4.9★</span><span class="stat-label">متوسط التقييم</span></div>
+      <div class="stat"><span class="stat-num">+30</span><span class="stat-label">صنف في المينيو</span></div>
+      <div class="stat"><span class="stat-num">8 سنين</span><span class="stat-label">خبرة وشغف</span></div>
+    </div>
+  </div>
+  <div class="hero-pizza">🍕</div>
+</section>
+
+<!-- ══════════ MENU ══════════ -->
+<section id="menu">
+  <div class="menu-inner">
+    <div class="menu-head reveal">
+      <p class="sec-label">Our Menu</p>
+      <h2 class="sec-title">المينيو بتاعنا 😍</h2>
+      <p class="sec-desc">كل صنف بيتعمل بأجود المكونات وبحب تحس بيه في كل لقمة</p>
+    </div>
+    <div class="menu-tabs reveal">
+      <button class="tab-btn active" onclick="filterMenu('all',this)">🍽️ الكل</button>
+      <button class="tab-btn" onclick="filterMenu('pizza',this)">🍕 بيتزا</button>
+      <button class="tab-btn" onclick="filterMenu('pasta',this)">🍝 باستا</button>
+      <button class="tab-btn" onclick="filterMenu('drinks',this)">🥤 مشروبات</button>
+      <button class="tab-btn" onclick="filterMenu('desserts',this)">🍮 ديسيرت</button>
+    </div>
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</section>
+
+<!-- ══════════ BOOKING ══════════ -->
+<section id="booking">
+  <div class="booking-inner">
+    <div class="booking-info reveal">
+      <p class="sec-label">Reserve a Table</p>
+      <h2 class="sec-title">احجز طاولتك<br/>دلوقتي! 🎉</h2>
+      <p class="sec-desc">استمتع بتجربة أكل لا تُنسى في أجواء إيطالية حقيقية — احجز وسيبنا نهتم بالباقي.</p>
+      <div class="booking-perks">
+        <div class="perk"><div class="perk-icon">✅</div> تأكيد الحجز فوري على الواتساب</div>
+        <div class="perk"><div class="perk-icon">🎂</div> مفاجأة مجانية للأعياد والمناسبات</div>
+        <div class="perk"><div class="perk-icon">🅿️</div> پاركينج مجاني لعملائنا</div>
+        <div class="perk"><div class="perk-icon">🍷</div> كأس ترحيب مجاني مع كل حجز</div>
+      </div>
+    </div>
+    <div class="booking-form reveal">
+      <div id="formWrap">
+        <h3>احجز طاولتك 🍕</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>الاسم</label>
+            <input type="text" id="fname" placeholder="اسمك الكريم"/>
+          </div>
+          <div class="form-group">
+            <label>رقم الموبايل</label>
+            <input type="tel" id="fphone" placeholder="01xxxxxxxxx"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>التاريخ</label>
+            <input type="date" id="fdate"/>
+          </div>
+          <div class="form-group">
+            <label>الوقت</label>
+            <input type="time" id="ftime" value="19:00"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>عدد الأشخاص</label>
+            <select id="fguests">
+              <option>1 شخص</option>
+              <option selected>2 أشخاص</option>
+              <option>3 أشخاص</option>
+              <option>4 أشخاص</option>
+              <option>5 أشخاص</option>
+              <option>6+ أشخاص</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>المناسبة</label>
+            <select id="foccasion">
+              <option>عشاء عادي</option>
+              <option>عيد ميلاد 🎂</option>
+              <option>خطوبة 💍</option>
+              <option>اجتماع عمل</option>
+              <option>تجمع عيلي</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group form-full">
+            <label>طلبات خاصة</label>
+            <textarea id="fnotes" placeholder="حساسية من أكل معين؟ طلب خاص؟ قولنا!"></textarea>
+          </div>
+        </div>
+        <button class="submit-btn" onclick="submitBooking()">
+          🎉 تأكيد الحجز
+        </button>
+      </div>
+      <div class="success-msg" id="successMsg">
+        <span class="tick">🎉</span>
+        <h4>تم الحجز بنجاح!</h4>
+        <p>هنتواصل معاك خلال 10 دقايق على الواتساب لتأكيد الحجز.</p>
+        <br/>
+        <p style="color:var(--red);font-weight:700">شكراً لاختيارك Pizzeria Roma! 🍕</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ REVIEWS ══════════ -->
+<section id="reviews">
+  <div class="reviews-inner">
+    <div class="reviews-head reveal">
+      <p class="sec-label">Customer Reviews</p>
+      <h2 class="sec-title">إيه اللي بيقولوه عننا ⭐</h2>
+      <p class="sec-desc">آراء حقيقية من عملاء حقيقيين — كلامهم هو اللي بيفرحنا كل يوم</p>
+    </div>
+    <div class="overall-rating reveal">
+      <div class="big-rating">4.9</div>
+      <div class="rating-details">
+        <div class="rating-stars">★★★★★</div>
+        <div class="rating-count">من أصل +1,200 تقييم</div>
+      </div>
+    </div>
+    <div class="reviews-grid" id="reviewsGrid"></div>
+  </div>
+</section>
+
+<!-- ══════════ LOCATION ══════════ -->
+<section id="location">
+  <div class="location-inner">
+    <div class="location-info reveal">
+      <p class="sec-label">Find Us</p>
+      <h2 class="sec-title">فين هتلاقينا؟ 📍</h2>
+      <p class="sec-desc">في قلب المدينة — هتلاقينا بسهولة وفي انتظارك دايماً</p>
+      <div class="info-cards">
+        <div class="info-card">
+          <div class="info-icon red">📍</div>
+          <div>
+            <div class="info-card-title">العنوان</div>
+            <div class="info-card-val">12 شارع النيل، وسط البلد، القاهرة<br/>بجوار محطة مترو السادات</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon orange">🕐</div>
+          <div>
+            <div class="info-card-title">مواعيد العمل</div>
+            <div class="info-card-val">السبت – الخميس: 12 ظهر – 1 صباحاً<br/>الجمعة: 2 عصر – 2 صباحاً</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon green">📞</div>
+          <div>
+            <div class="info-card-title">اتصل بنا</div>
+            <div class="info-card-val">01234567890<br/>01098765432 (واتساب)</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon blue">🚗</div>
+          <div>
+            <div class="info-card-title">التوصيل</div>
+            <div class="info-card-val">توصيل مجاني فوق 150 جنيه<br/>في نطاق 10 كيلو</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- الخريطة — غير الـ src بخريطة موقعك الحقيقي -->
+    <div class="map-wrap reveal">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3454.0!2d31.2357!3d30.0444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAyJzM5LjgiTiAzMcKwMTQnMDguNSJF!5e0!3m2!1sar!2seg!4v1234567890"
+        allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <span class="footer-logo">Pizzeria Roma</span>
+  <p class="footer-tagline">🍕 بيتزا بحب — منذ 2016</p>
+  <div class="footer-links">
+    <a href="#menu">المينيو</a>
+    <a href="#booking">الحجز</a>
+    <a href="#reviews">التقييمات</a>
+    <a href="#location">موقعنا</a>
+  </div>
+  <div class="social-links">
+    <a class="social-btn" href="#">📘</a>
+    <a class="social-btn" href="#">📸</a>
+    <a class="social-btn" href="#">🎵</a>
+    <a class="social-btn" href="#">💬</a>
+  </div>
+  <p class="footer-copy">© 2025 Pizzeria Roma — جميع الحقوق محفوظة</p>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+/* ══════════════════════════════
+   بيانات المينيو
+══════════════════════════════ */
+const MENU = [
+  // بيتزا
+  {cat:'pizza', name:'Margherita الكلاسيك',     emoji:'🍕', price:89,  desc:'صوص طماطم، موزاريلا طازجة، ريحان أخضر',         popular:true},
+  {cat:'pizza', name:'Pepperoni Hot',           emoji:'🍕', price:109, desc:'شرائح پيپيروني، جبن مزدوج، فلفل حار',            popular:false},
+  {cat:'pizza', name:'BBQ Chicken',             emoji:'🍕', price:119, desc:'دجاج مشوي، صوص BBQ، بصل كراميل، موزاريلا',       popular:true},
+  {cat:'pizza', name:'Quattro Formaggi',        emoji:'🍕', price:129, desc:'4 أنواع جبن إيطالي — للمحبين بس!',               popular:false},
+  {cat:'pizza', name:'Veggie Supreme',          emoji:'🍕', price:99,  desc:'فلفل ملون، مشروم، زيتون، بصل، طماطم كيرز',      popular:false},
+  {cat:'pizza', name:'Seafood Delight',         emoji:'🍕', price:139, desc:'جمبري، كلاماري، صوص ثوم ليمون',                  popular:true},
+  // باستا
+  {cat:'pasta', name:'Spaghetti Bolognese',     emoji:'🍝', price:79,  desc:'سباجيتي مع صوص لحمة إيطالي كلاسيك',             popular:true},
+  {cat:'pasta', name:'Fettuccine Alfredo',      emoji:'🍝', price:89,  desc:'فتتشيني مع صوص كريمة وپارميزان',                 popular:false},
+  {cat:'pasta', name:'Penne Arrabbiata',        emoji:'🍝', price:75,  desc:'بيني مع صوص طماطم حار وثوم',                    popular:false},
+  {cat:'pasta', name:'Lasagna Al Forno',        emoji:'🍝', price:99,  desc:'لازانيا بالبيشاميل والبولونيز في الفرن',          popular:true},
+  // مشروبات
+  {cat:'drinks', name:'Limonata Italiana',      emoji:'🍋', price:35,  desc:'ليمون طازج مع نعناع وماء فوار إيطالي',           popular:true},
+  {cat:'drinks', name:'Mango Fresco',           emoji:'🥭', price:40,  desc:'مانجو طازج مع حليب وشربات فانيلا',               popular:false},
+  {cat:'drinks', name:'Iced Cappuccino',        emoji:'☕', price:45,  desc:'كابتشينو مثلج مع كريمة وكراميل',                 popular:false},
+  {cat:'drinks', name:'Smoothie Mix',           emoji:'🥤', price:50,  desc:'فراولة وموز وعسل وحليب طازج',                   popular:true},
+  // ديسيرت
+  {cat:'desserts', name:'Tiramisu Originale',   emoji:'🍮', price:65,  desc:'تيراميسو إيطالي أصلي — الوصفة السرية!',          popular:true},
+  {cat:'desserts', name:'Nutella Pizza',        emoji:'🍫', price:75,  desc:'عجينة بيتزا حلوة مع نوتيلا وفراولة',             popular:true},
+  {cat:'desserts', name:'Panna Cotta',          emoji:'🍮', price:55,  desc:'پانا كوتا فانيلا مع كولي توت حمراء',             popular:false},
+];
+
+/* بيانات التقييمات */
+const REVIEWS_DATA = [
+  {name:'أحمد السيد',    avatar:'أ', color:'#E63946', stars:5, date:'مارس 2025',   text:'والله تجربة لا تُنسى! البيتزا جت سخنة وطعمها بالظبط زي اللي باكله في إيطاليا. الخدمة ممتازة والجو رومانسي جداً.'},
+  {name:'نورا محمد',     avatar:'ن', color:'#F4A261', stars:5, date:'فبراير 2025', text:'احتفلت بعيد ميلادي هناك وكانت مفاجأة التورتة فاجأتني جداً 🎂 شكراً فريق Pizzeria Roma الرائع!'},
+  {name:'كريم عبدالله',  avatar:'ك', color:'#06D6A0', stars:5, date:'يناير 2025',  text:'أحسن لازانيا أكلتها في حياتي — جربت كتير بس دي مستوى تاني. هرجع بالتأكيد وهجيب أهلي!'},
+  {name:'سارة إبراهيم',  avatar:'س', color:'#118AB2', stars:4, date:'ديسمبر 2024', text:'الأكل تحفة والخدمة سريعة. الجو حلو جداً ومناسب للعيلة. النقطة الوحيدة إن الپاركينج بيتملي بسرعة.'},
+  {name:'محمود حسن',     avatar:'م', color:'#9B5DE5', stars:5, date:'نوفمبر 2024', text:'Pepperoni Hot 🔥 اسمها بيعبر عنها! حار وبالظبط زي ما بحب. جربت مطاعم كتير في المدينة وده الأفضل.'},
+  {name:'ياسمين طارق',   avatar:'ي', color:'#F15BB5', stars:5, date:'أكتوبر 2024', text:'الـ Tiramisu ده مش بيشبه أي حاجة تانية. حسيت إني في روما! السعر كويس جداً مقارنة بالجودة الممتازة.'},
+];
+
+/* ══════════════════════════════
+   الكيرسور المخصص
+══════════════════════════════ */
+const cursor     = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+
+document.addEventListener('mousemove', e => {
+  cursor.style.left     = e.clientX + 'px';
+  cursor.style.top      = e.clientY + 'px';
+  cursorRing.style.left = e.clientX + 'px';
+  cursorRing.style.top  = e.clientY + 'px';
+});
+
+/* تكبير الكيرسور على الأزرار */
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform     = 'translate(-50%,-50%) scale(1.8)';
+    cursorRing.style.transform = 'translate(-50%,-50%) scale(0.5)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform     = 'translate(-50%,-50%) scale(1)';
+    cursorRing.style.transform = 'translate(-50%,-50%) scale(1)';
+  });
+});
+
+/* ══════════════════════════════
+   ناف الموبايل
+══════════════════════════════ */
+function openMobileNav()  { document.getElementById('mobileNav').classList.add('open'); }
+function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
+
+/* ══════════════════════════════
+   المينيو — فلتر وعرض
+══════════════════════════════ */
+let currentCat = 'all';
+
+function filterMenu(cat, btn) {
+  currentCat = cat;
+  /* تحديث التابات */
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMenu();
+}
+
+function renderMenu() {
+  const list = currentCat === 'all'
+    ? MENU
+    : MENU.filter(i => i.cat === currentCat);
+
+  document.getElementById('menuGrid').innerHTML = list.map((item, i) => `
+    <div class="menu-card cat-${item.cat}" style="animation-delay:${i * .06}s">
+      ${item.popular ? '<div class="popular-badge">⭐ الأكتر طلباً</div>' : ''}
+      <div class="menu-card-img">${item.emoji}</div>
+      <div class="menu-card-body">
+        <div class="menu-card-name">${item.name}</div>
+        <div class="menu-card-desc">${item.desc}</div>
+        <div class="menu-card-footer">
+          <div class="menu-card-price">${item.price} <span>جنيه</span></div>
+          <button class="add-btn" onclick="addItem('${item.name}')">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ══════════════════════════════
+   إضافة للسلة (بسيطة)
+══════════════════════════════ */
+function addItem(name) {
+  showToast(`🍕 تم إضافة "${name}" للطلب!`);
+}
+
+/* ══════════════════════════════
+   فورم الحجز
+══════════════════════════════ */
+function submitBooking() {
+  const name  = document.getElementById('fname').value.trim();
+  const phone = document.getElementById('fphone').value.trim();
+  const date  = document.getElementById('fdate').value;
+  const time  = document.getElementById('ftime').value;
+
+  /* تحقق بسيط */
+  if(!name || !phone || !date || !time) {
+    showToast('⚠️ من فضلك اكمل البيانات المطلوبة');
+    return;
+  }
+
+  /* إخفاء الفورم وإظهار رسالة النجاح */
+  document.getElementById('formWrap').style.display  = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+}
+
+/* ══════════════════════════════
+   التقييمات
+══════════════════════════════ */
+function renderReviews() {
+  document.getElementById('reviewsGrid').innerHTML = REVIEWS_DATA.map((r, i) => `
+    <div class="review-card" style="animation-delay:${i * .08}s">
+      <div class="reviewer">
+        <div class="reviewer-avatar" style="background:${r.color}">${r.avatar}</div>
+        <div>
+          <div class="reviewer-name">${r.name}</div>
+          <div class="reviewer-date">${r.date}</div>
+        </div>
+      </div>
+      <div class="review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+      <div class="review-text">${r.text}</div>
+    </div>
+  `).join('');
+}
+
+/* ══════════════════════════════
+   التوست
+══════════════════════════════ */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ══════════════════════════════
+   Scroll Reveal
+══════════════════════════════ */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ══════════════════════════════
+   تشغيل أول مرة
+══════════════════════════════ */
+renderMenu();
+renderReviews();
+
+/* تحديد تاريخ الحجز بيبدأ من النهارده */
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('fdate').min   = today;
+document.getElementById('fdate').value = today;
+</script>
+</body>
+</html>
